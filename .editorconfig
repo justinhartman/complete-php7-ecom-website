@@ -1,12 +1,21 @@
+# top-most EditorConfig file
 root = true
 
+# Default root settings.
 [*]
+charset = utf-8
+end_of_line = lf
 indent_style = space
 indent_size = 4
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
 insert_final_newline = true
+trim_trailing_whitespace = true
 
+# Specific changes for JavaScript, YAML and JSON files.
+[*.{yaml,json,js}]
+indent_size = 2
+
+# Markdown specific rules.
 [*.md]
+indent_size = 2
 trim_trailing_whitespace = false
+max_line_length = 80
