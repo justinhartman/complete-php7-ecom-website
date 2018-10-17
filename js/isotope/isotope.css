@@ -1,0 +1,72 @@
+.isotope {
+	margin-top: 10px;
+}
+
+.folio-inner {
+	overflow: hidden;
+	background: #fff;
+}
+
+.folio-filter {
+	position: relative;
+	bottom: 0px;
+	display: table;
+	margin: 20px auto 65px;
+	float: none;
+	padding: 0px;
+}
+
+.folio-filter li {
+	display: inline-block;
+	margin-right: 24px;
+	margin-left: 24px;
+}
+
+.folio-filter li:last-child {
+	padding-right: 0px;
+}
+
+.folio-filter li a {
+	display: block;
+	font-family: Raleway;
+	font-size: 13px;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: #666;
+	padding: 0 0px;
+	letter-spacing: 0.15em;
+}
+
+.folio-filter li a span {
+	margin-right: 6px;
+}
+
+.folio-filter li a:hover, .folio-filter li a.selected {
+	color: #000;
+	text-decoration: none;
+}
+	
+/* Isotope Transitions
+------------------------------- */
+/* Note: Design for a width of 480px */
+@media only screen and (max-width: 470px) {
+
+.folio-filter {
+    margin: 50px auto 0px;
+}
+
+.folio-filter li {
+    font-size: 12px;
+    padding: 3px 3px;
+}
+
+}
+
+/* Note: Design for a width of 480px */
+@media only screen and (max-width: 767px) {
+
+.folio-filter {
+    margin: 50px auto 0px;
+}
+
+}

@@ -1,0 +1,342 @@
+/* 1. Global Styles */
+
+body {
+	background-color:#fff;	
+}
+
+p {
+	color:#5f5f5f;
+}
+
+.main-btn {
+	background-color:#141214;
+	border:3px solid #141214;
+    color: #fff;
+}
+
+.main-btn:hover {
+	color:#141214;	
+}
+
+.main-btn:before {
+	content:url(../images/dot.png);	
+}
+
+.main-btn:after {
+	content:url(../images/dot.png);
+}
+
+.main-btn:hover::after {
+	content:url(../images/dot-black.png);	
+}
+
+.main-btn:hover::before {
+	content:url(../images/dot-black.png);	
+}
+
+
+.h-page-title h1 {
+	color:#141214;	
+}
+
+.h-page-title span.sub-title {
+	color:#5f5f5f;	
+}
+
+.h-page-title .mustache > span:before,
+.h-page-title .mustache > span:after {
+	border-top: 1px solid #e2e2e2;
+}
+/* 1. Global Styles */
+
+/* 2. ========== Home Page Start Here ==========*/
+
+/* 2.1. ========== Navigation Start ==========*/
+
+.sticky-wrapper.is-sticky .navbar-inverse {
+	background-color:#23211D;
+}
+/* 2.1. ========== Navigation End ==========*/
+
+
+/* 2.2. ========== About Us Section Start ==========*/
+
+.about {
+	background-image:url(../images/home-page/light/border-line-bottom.png) ,url(../images/home-page/light/border-line-bottom.png);
+}
+
+.about .about-bottom h5 {
+	color:#141214;	
+}
+
+.about .about-bottom span.speciality {
+	color:#939292;	
+}
+
+.about .main-btn:hover {
+	color:#141214;	
+}
+
+.stats {
+	background-image:url(../images/home-page/light/border-line-bottom.png),url(../images/home-page/light/border-line-bottom.png);
+}
+
+
+/* 2.2. ========== About Us Section End ==========*/
+
+/* 2.3. ========== Services Section Start ==========*/
+.service-info h4 {
+	color:#141214;		
+}
+
+.service-right::after,
+.service-left::after {
+	background: #fff;	
+}
+
+/* 2.3. ========== Services Section End ==========*/
+
+/* 2.4. ========== Barbers-Team Section Start ==========*/
+.main-team ul.cs-style-7 li figcaption {
+	background:#fff;	
+}
+
+.main-team ul.cs-style-7 li figcaption h5 {
+	color:#141214;	
+}
+
+.main-team ul.cs-style-7 li figcaption ul.social li a {
+	color:#141214;	
+}
+
+
+/* 2.4. ========== Barbers-Team Section End ==========*/
+
+/* 2.5. ========== Gallery Section Start ==========*/
+.portfolio-gal .folio-item .folio-border {
+	border:3px solid #fff;	
+}
+
+.portfolio-gal .folio-item .folio-border .folio-detail {
+	background-color:#fff;	
+}
+
+.portfolio-gal .folio-item .folio-border .folio-detail h5 {
+	color:#141214;	
+}
+
+.portfolio-gal .folio-item .folio-border .folio-detail h6 {
+	color:#929292;	
+}
+
+.gallery .main-btn:hover {
+    color: #141214;	
+}
+
+#portfolio-gal .main-navigation {
+	background-color:#fff;	
+}
+
+.portfolio-gal-filter li a, .journal-filter li a {
+	color:#141214;	
+}
+
+#portfolio-gal .main-navigation:after {
+	content:"";
+	background:url(../images/home-page/light/gallery-nav-border.png);
+	height:3px;
+	width:100%;
+	position:absolute;
+	top:-3px;
+	left:0;
+	right:0;
+}
+
+#portfolio-gal .main-navigation:before {
+	content:"";
+	background:url(../images/home-page/light/gallery-nav-border.png);	
+	height:3px;
+	width:100%;
+	position:absolute;
+	bottom:-3px;
+	left:0;
+	right:0;
+}
+
+/* 2.5. ========== Gallery Section End ==========*/
+
+/* 2.6. ========== Pricing Section Start ==========*/
+
+.pricing {
+	background:url(../images/home-page/light/pricing-bg.png) repeat;	
+}
+
+.pricing-bg .main-pricing .price-block .inner-price h3 {
+	color:#141214;	
+}
+
+.pricing-bg .main-pricing .price-block:hover .inner-price .main-btn {
+	background-color:#fff;
+	border-color:#fff;
+}
+
+.pricing-bg .main-pricing .price-block .inner-price h1 {
+	color:#141214;	
+}
+
+.pricing .pricing-bg {
+	background-image:url(../images/home-page/light/pricing-border-line.png),url(../images/home-page/light/pricing-border-line.png);
+}
+
+/* 2.6. ========== Pricing Section End ==========*/
+
+
+/* 2.7. ========== Blog Section Start ==========*/
+.blog .main-blog ul li .box-holder .blog-detail {
+	background-color:#fff;	
+}
+
+.blog .main-blog ul li .box-holder .blog-detail .date {
+	border-top:1px solid #f1f1f1;	
+}
+
+.blog .main-blog ul li .box-holder .blog-detail .date h6 {
+	color:#929292;
+}
+
+.blog .main-btn:hover {
+    color: #141214;	
+}
+
+
+/* 2.7. ========== Blog Section End ==========*/
+
+
+/* 2.8. ========== Contact Section Start ==========*/
+
+.map {
+	background-image:url(../images/home-page/light/map-border-line.png),url(../images/home-page/light/map-border-line.png);	
+}
+
+.map .map-box .map-detail ul li h4 {
+	color:#141214;	
+}
+
+.map .map-box .map-detail {
+	background-color:#fff;	
+}
+
+/* 2.8. ========== Contact Section End ==========*/
+
+/* 2. ========== Home Page End Here ==========*/
+
+
+/* 3. ========== Blog Page Start Here ==========*/
+
+.blog-head .navbar-inverse {
+	background-color:#292929;		
+}
+
+.content-blog h1.title {
+	color:#141214;		
+}
+
+.content-blog .caption {
+	border-top:1px solid #e2e2e2;
+	border-bottom:1px solid #e2e2e2;	
+}
+
+.content-blog .caption span.date {
+	color:#939292;		
+}
+
+.content-blog .caption span.comment {
+	color:#939292;		
+}
+
+.content-blog .comment-section .name h2 {
+	color:#141214;	
+}
+
+.comment-section .name span.date {
+	color:#939292;		
+}
+
+.comment-section .name span.time {
+	color:#939292;		
+}
+
+.leave-reply input[type="text"] , 
+.leave-reply input[type="email"] {
+	border:2px solid #e2e2e2;
+	background-color:#ffffff;
+	color:#939292;	
+}
+
+.leave-reply textarea {
+	border:2px solid #e2e2e2;
+	background-color:#ffffff;
+	color:#939292;	
+}
+
+.leave-reply textarea:focus {
+	border:2px solid #e2e2e2;
+}
+
+.leave-reply .main-btn:hover {
+	background-color:#fff;
+	border:3px solid #141214;
+	color:#141214;
+}
+
+.search-box .form-control {
+	border:2px solid #e2e2e2;
+	background-color:#ffffff;
+	color:#939292;
+}
+
+.right-side .title {
+	border-bottom:1px solid	#e2e2e2;	
+}
+
+.right-side .title h5 {
+	color:#141214;	
+}
+
+.right-side .catgorie ul li {
+	border-bottom:1px solid #e2e2e2;	
+}
+
+.right-side .recent-post ul li a {
+	color:#141214;	
+}
+
+.right-side .recent-post ul li span {
+	color:#939292;	
+}
+
+.right-side .recent-post ul li {
+	border-bottom:1px solid #e2e2e2;	
+}
+
+.blog-f {
+}
+
+/*==================================================================*/
+/* 3. ========== Blog Page End Here ==========*/
+/*==================================================================*/
+
+
+/*==================================================================*/
+/* 4. ========== Footer Start Here ==========*/
+/*==================================================================*/
+
+#footer p {
+	color:#141214;	
+}
+
+/*==================================================================*/
+/* 4. ========== Footer End Here==========*/
+/*==================================================================*/
+
+
