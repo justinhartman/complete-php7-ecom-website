@@ -1,0 +1,35 @@
+{
+    "name": "complete-php7-ecom-website",
+    "description": "An advanced and complete PHP 7 eCommerce website along with MySQL database and Admin interface.",
+    "homepage": "https://github.com/justinhartman/complete-php7-ecom-website",
+    "keywords": ["cms", "ecommerce", "ecommerce admin", "ecommerce database", "ecommerce website", "php"],
+    "authors": [{
+        "name": "Justin Hartman",
+        "email": "justin@hartman.me",
+        "homepage": "https://justinhartman.blog"
+    }],
+    "type": "project",
+    "license": "AGPL-3",
+    "require": {
+        "php": ">=7.0",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-zip": "*",
+        "ext-json": "*",
+        "ext-exif": "*",
+        "ext-apcu": "*",
+        "ext-memcached": "*",
+        "ext-redis": "*",
+        "vlucas/phpdotenv": "^2.5"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "/bin/cp config/.env.prod config/.env"
+        ]
+    },
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}
