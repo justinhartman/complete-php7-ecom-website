@@ -45,7 +45,7 @@ if (file_exists(CONFIG . '.env')) {
     $dotenv = new Dotenv\Dotenv(CONFIG, '.env');
     $dotenv->load();
     // Check that the following variables have been defined.
-    $dotenv->required(['DB_HOST', 'DB_USERNAME', 'DB_PASSWORD', 'DB_DATABASE']);
+    $dotenv->required(['DB_HOST', 'DB_USERNAME', 'DB_PASSWORD', 'DB_DATABASE', 'STORE_URL']);
 }
 
 /**
