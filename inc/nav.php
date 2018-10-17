@@ -2,14 +2,14 @@
                         <div id="mobnav-btn">Menu <i class="fa fa-bars"></i></div>
                         <ul class="sf-menu">
                             <li>
-                                <a href="http://localhost/ecomphp/index.php">Home</a>
+                                <a href="<?php echo getenv('STORE_URL'); ?>/index.php">Home</a>
                             </li>
                             <li>
                                 <a href="#">Shop</a>
                                 <div class="mobnav-subarrow"><i class="fa fa-plus"></i></div>
                                 <ul>
                                     <?php
-                                    $catsql = "SELECT * FROM category";
+                                    $catsql = "SELECT * FROM `category`";
                                     $catres = mysqli_query($connection, $catsql);
                                     while ($catr = mysqli_fetch_assoc($catres)) {
                                         ?>
@@ -22,9 +22,9 @@
                                 <a href="#">My Account</a>
                                 <div class="mobnav-subarrow"><i class="fa fa-plus"></i></div>
                                 <ul>
-                                    <li><a href="http://localhost/ecomphp/my-account.php">My Orders</a></li>
-                                    <li><a href="http://localhost/ecomphp/edit-address.php">Update Address</a></li>
-                                    <li><a href="http://localhost/ecomphp/logout.php">Logout</a></li>
+                                    <li><a href="<?php echo getenv('STORE_URL'); ?>/my-account.php">My Orders</a></li>
+                                    <li><a href="<?php echo getenv('STORE_URL'); ?>/edit-address.php">Update Address</a></li>
+                                    <li><a href="<?php echo getenv('STORE_URL'); ?>/logout.php">Logout</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -35,40 +35,47 @@
                             <?php $cart = $_SESSION['cart']; ?>
                             <div class="s-cart">
                                 <div class="sc-ico"><i class="fa fa-shopping-cart"></i><em><?php
-                                echo count($cart); ?></em></div>
-
+                                if (!is_null($cart)) {
+                                    echo count($cart);
+                                } else {
+                                    echo "0";
+                                } ?></em></div>
                                 <div class="cart-info">
-                                    <small>You have <em class="highlight"><?php
-                                    echo count($cart); ?> item(s)</em> in your shopping bag</small>
+                                    <small><?php
+                                    if (!is_null($cart)) {
+                                        echo 'You have <em class="highlight"> ' . count($cart) . ' items</em> in your shopping cart.';
+                                    } else {
+                                        echo 'Your shopping cart is empty. It\'s pretty lonely over here, why not add something to it?';
+                                    } ?>
+                                    </small>
                                     <br>
                                     <br>
                                     <?php
-                                    //print_r($cart);
-                                    $total = 0;
-                                    foreach ($cart as $key => $value) {
-                                        //echo $key . " : " . $value['quantity'] ."<br>";
-                                        $navcartsql = "SELECT * FROM products WHERE id=$key";
-                                        $navcartres = mysqli_query($connection, $navcartsql);
-                                        $navcartr = mysqli_fetch_assoc($navcartres); ?>
-                                        <div class="ci-item">
-                                            <img src="admin/<?php echo $navcartr['thumb']; ?>" width="70" alt=""/>
-                                            <div class="ci-item-info">
-                                                <h5><a href="single.php?id=<?php echo $navcartr['id']; ?>"><?php echo substr($navcartr['name'], 0, 20); ?></a></h5>
-                                                <p><?php echo $value['quantity']; ?> x R <?php echo $navcartr['price']; ?>.00</p>
-                                                <div class="ci-edit">
-                                                    <!-- <a href="#" class="edit fa fa-edit"></a> -->
-                                                    <a href="delcart.php?id=<?php echo $key; ?>" class="edit fa fa-trash"></a>
+                                    if (!is_null($total)) {
+                                        foreach ($cart as $key => $value) {
+                                            $navcartsql = "SELECT * FROM `products` WHERE `id`=$key";
+                                            $navcartres = mysqli_query($connection, $navcartsql);
+                                            $navcartr = mysqli_fetch_assoc($navcartres); ?>
+                                            <div class="ci-item">
+                                                <img src="admin/<?php echo $navcartr['thumb']; ?>" width="70" alt=""/>
+                                                <div class="ci-item-info">
+                                                    <h5><a href="single.php?id=<?php echo $navcartr['id']; ?>"><?php echo substr($navcartr['name'], 0, 20); ?></a></h5>
+                                                    <p><?php echo $value['quantity']; ?> x R <?php echo $navcartr['price']; ?></p>
+                                                    <div class="ci-edit">
+                                                        <a href="delcart.php?id=<?php echo $key; ?>" class="edit fa fa-trash"></a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <?php
-                                        $total = $total + ($navcartr['price']*$value['quantity']);
-                                    } ?>
-                                    <div class="ci-total">Subtotal: R <?php echo $total; ?>.00</div>
+                                            <?php
+                                            $total = $total + ($navcartr['price']*$value['quantity']);
+                                        } ?>
+                                    <div class="ci-total">Subtotal: R <?php echo $total; ?></div>
                                     <div class="cart-btn">
                                         <a href="cart.php">View Bag</a>
                                         <a href="checkout.php">Checkout</a>
                                     </div>
+                                    <?php
+                                    } ?>
                                 </div>
                             </div>
                             <div class="s-search">
