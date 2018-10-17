@@ -5,11 +5,11 @@ Admin
 -username/email
 -password
 
-category
+Category
 -id
 -categoryname
 
-products
+Products
 -id
 -name
 -categoryid
@@ -23,7 +23,6 @@ Users
 -password
 -timestamp
 
-
 Users Meta
 -id
 -userid
@@ -36,7 +35,6 @@ Users Meta
 -country
 -zip
 -mobile
-
 
 Orders
 -id
@@ -71,5 +69,3 @@ Reviews
 -uid
 -review
 -timestamp
-
-

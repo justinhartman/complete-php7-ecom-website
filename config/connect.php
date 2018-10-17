@@ -1,5 +1,5 @@
 <?php
-$connection = mysqli_connect('localhost', 'root', '', 'ecomphp');
+$connection = mysqli_connect('localhost', 'root', 'funk19', 'ecomphp');
 if (!$connection) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
     echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;

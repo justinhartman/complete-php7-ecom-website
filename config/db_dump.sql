@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
--- http://www.phpmyadmin.net
+-- version 4.8.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 08, 2017 at 06:41 PM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 5.6.24
+-- Generation Time: Oct 17, 2018 at 08:43 PM
+-- Server version: 8.0.11
+-- PHP Version: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,38 +21,46 @@ SET time_zone = "+00:00";
 --
 -- Database: `ecomphp`
 --
+CREATE DATABASE IF NOT EXISTS `ecomphp` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `ecomphp`;
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `admin`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+--
 
+DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id`, `firstname`, `lastname`, `email`, `password`) VALUES
-(1, 'Vivek', 'Vengala', 'vivek@codingcyber.com', '26e0eca228b42a520565415246513c0d');
+(1, 'Justin', 'Hartman', 'justin@hartman.me', '26e0eca228b42a520565415246513c0d');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `category`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+--
 
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `category`
@@ -66,14 +76,18 @@ INSERT INTO `category` (`id`, `name`) VALUES
 --
 -- Table structure for table `orderitems`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+-- Last update: Oct 16, 2018 at 09:12 PM
+--
 
+DROP TABLE IF EXISTS `orderitems`;
 CREATE TABLE `orderitems` (
   `id` int(11) NOT NULL,
   `pid` int(11) NOT NULL,
   `pquantity` varchar(255) NOT NULL,
   `orderid` int(11) NOT NULL,
   `productprice` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `orderitems`
@@ -88,14 +102,21 @@ INSERT INTO `orderitems` (`id`, `pid`, `pquantity`, `orderid`, `productprice`) V
 (6, 18, '1', 4, '12890'),
 (7, 21, '1', 4, '75'),
 (8, 2, '1', 5, '7590'),
-(9, 19, '10', 5, '16');
+(9, 19, '10', 5, '16'),
+(10, 19, '1', 7, '16'),
+(11, 21, '1', 7, '75'),
+(12, 20, '2', 7, '99');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `orders`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+-- Last update: Oct 16, 2018 at 09:12 PM
+--
 
+DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
@@ -103,48 +124,56 @@ CREATE TABLE `orders` (
   `orderstatus` varchar(255) NOT NULL,
   `paymentmode` varchar(255) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `uid`, `totalprice`, `orderstatus`, `paymentmode`, `timestamp`) VALUES
-(1, 2, '80', 'Order Placed', 'cod', '2017-10-28 12:22:36'),
-(2, 2, '42060', 'Order Placed', 'cod', '2017-10-28 12:27:16'),
-(3, 6, '21980', 'Cancelled', 'cod', '2017-10-28 14:25:23'),
-(4, 6, '12965', 'In Progress', 'cod', '2017-10-28 14:28:29'),
-(5, 6, '7750', 'In Progress', 'cod', '2017-11-06 19:40:34');
+(1, 2, '80', 'Order Placed', 'cod', '2018-10-16 12:22:36'),
+(2, 2, '42060', 'Order Placed', 'cod', '2018-10-16 12:27:16'),
+(3, 6, '21980', 'Cancelled', 'cod', '2018-10-16 14:25:23'),
+(4, 6, '12965', 'In Progress', 'cod', '2018-10-16 14:28:29'),
+(5, 6, '7750', 'In Progress', 'cod', '2018-10-16 19:40:34'),
+(7, 7, '289', 'Order Placed', 'on', '2018-10-16 23:12:18');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `ordertracking`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+-- Last update: Oct 16, 2018 at 09:00 PM
+--
 
+DROP TABLE IF EXISTS `ordertracking`;
 CREATE TABLE `ordertracking` (
   `id` int(11) NOT NULL,
   `orderid` int(11) NOT NULL,
   `status` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `ordertracking`
 --
 
 INSERT INTO `ordertracking` (`id`, `orderid`, `status`, `message`, `timestamp`) VALUES
-(3, 3, 'Cancelled', ' I don&#39;t want this item now.', '2017-10-28 17:54:18'),
-(5, 4, 'In Progress', ' Order is in Progress', '2017-10-30 13:31:08'),
-(6, 5, 'In Progress', ' Order is in Progress', '2017-11-06 19:45:11');
+(3, 3, 'Cancelled', 'I do not want this item now.', '2018-10-16 17:54:18'),
+(5, 4, 'In Progress', ' Order is in Progress', '2018-10-16 13:31:08'),
+(6, 5, 'In Progress', ' Order is in Progress', '2018-10-16 19:45:11');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `products`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+--
 
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -152,7 +181,7 @@ CREATE TABLE `products` (
   `price` varchar(255) NOT NULL,
   `thumb` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `products`
@@ -163,58 +192,70 @@ INSERT INTO `products` (`id`, `name`, `catid`, `price`, `thumb`, `description`) 
 (2, 'Sony DSC W830 Cyber-shot 20.1 MP Point and Shoot Camera (Black) with 8x Optical Zoom, Memory Card and Camera Case', 2, '7590', 'uploads/Sony Alpha a6000 Mirrorless Digital.jpg', 'The Sony DSC W830 Cyber-shot 20.1 MP Point and Shoot Camera (Black) with 8x Optical Zoom is a powerful camera full of features that put it at par with any professional DSLR. It is packed with a super HAD CCD sensor that comes with 20.1 effective megapixel'),
 (18, 'Sony Cyber-shot DSC-H300/BC E32 point & Shoot Digital camera ', 2, '12890', 'uploads/Sony Alpha ILCA-77M2Q 24 3MP.jpg', 'The High zoom camera Sony Cyber-shot H300, with a powerful 35x optical zoom, brings your subject to you for beautiful, precise pictures. A 20.1MP sensor, HD video and creative features, let you capture detailed images and movies with ease. A DSLR-style bo'),
 (19, 'General Knowledge 2018', 3, '16', 'uploads/General Knowledge 2018.jpg', 'An editorial team of highly skilled professionals at Arihant, works hand in glove to ensure that the students receive the best and accurate content through our books. From inception till the book comes out from print, the whole team comprising of authors,'),
-(20, 'The Power of your Subconscious Mind', 3, '99', 'uploads/The Power of your Subconscious Mind.jpg', 'It''s a very good n very useful book n it should be read by each n every one ...to knw the things that are not aware and know about the mind power .. Super duper book --ByAmazon Customeron 19 March 2017'),
-(21, 'Think and Grow Rich', 3, '75', 'uploads/Think and Grow Rich.jpg', 'An American journalist, lecturer and author, Napoleon Hill is one of the earliest producers of ''personal-success literature . As an author of self-help books, Hill has always abided by and promoted principle of intense and burning passion being the sole k');
+(20, 'The Power of your Subconscious Mind', 3, '99', 'uploads/The Power of your Subconscious Mind.jpg', 'It\'s a very good n very useful book n it should be read by each n every one ...to knw the things that are not aware and know about the mind power .. Super duper book --ByAmazon Customeron 19 March 2018'),
+(21, 'Think and Grow Rich', 3, '75', 'uploads/Think and Grow Rich.jpg', 'An American journalist, lecturer and author, Napoleon Hill is one of the earliest producers of \'personal-success literature . As an author of self-help books, Hill has always abided by and promoted principle of intense and burning passion being the sole k');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `reviews`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+--
 
+DROP TABLE IF EXISTS `reviews`;
 CREATE TABLE `reviews` (
   `id` int(11) NOT NULL,
   `pid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `review` text NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `reviews`
 --
 
 INSERT INTO `reviews` (`id`, `pid`, `uid`, `review`, `timestamp`) VALUES
-(1, 1, 6, 'It&#39;s an awesome Product...', '2017-10-30 15:18:42');
+(1, 1, 6, 'It is an awesome Product!', '2018-10-16 15:18:42');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `users`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+-- Last update: Oct 16, 2018 at 08:18 PM
+--
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `timestamp`) VALUES
-(1, 'vivek@codingcyber.com', '26e0eca228b42a520565415246513c0d', '2017-10-27 12:05:10'),
-(2, 'vivek1@codingcyber.com', '$2y$10$cMzHNUFGKma96MywHmVMbekuJZb1tSNLsevHzLnSRbcRicQVhEC6a', '2017-10-27 12:24:25'),
-(6, 'vivek2@codingcyber.com', '$2y$10$apI7l.1wAS5pgbG4YfMrN.jNd5T3XmhecFuSV2M6UNdoUHImPXNxm', '2017-10-27 12:28:20');
+(1, 'justin@hartman.me', '26e0eca228b42a520565415246513c0d', '2018-10-15 12:05:10'),
+(2, 'iamjustinhartman@gmail.com', '$2y$10$cMzHNUFGKma96MywHmVMbekuJZb1tSNLsevHzLnSRbcRicQVhEC6a', '2018-10-15 12:24:25'),
+(6, 'jjhartman@gmail.com', '$2y$10$apI7l.1wAS5pgbG4YfMrN.jNd5T3XmhecFuSV2M6UNdoUHImPXNxm', '2018-10-15 12:28:20'),
+(7, 'justin@22digital.co.za', '$2y$10$.eu/GvIuz58XRl/KIlOZl.xO0cH0TH./KmGfoxn/VXAZ5XVTmd.sa', '2018-10-16 22:18:12');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `usersmeta`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+-- Last update: Oct 16, 2018 at 08:53 PM
+--
 
+DROP TABLE IF EXISTS `usersmeta`;
 CREATE TABLE `usersmeta` (
   `id` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
@@ -228,37 +269,43 @@ CREATE TABLE `usersmeta` (
   `country` varchar(255) NOT NULL,
   `zip` varchar(255) NOT NULL,
   `mobile` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `usersmeta`
 --
 
 INSERT INTO `usersmeta` (`id`, `uid`, `firstname`, `lastname`, `company`, `address1`, `address2`, `city`, `state`, `country`, `zip`, `mobile`) VALUES
-(1, 2, 'Vivek', 'V', 'Coding Cyber', 'Hyd', 'Hyd', 'Hyderabad', 'Telangana', '', '500060', ''),
-(2, 6, 'Vivek', 'Vengala', 'Coding Cyber', '#201', 'DSNR', 'Hyderabad', 'Telangana', '', '500060', '9876543211');
+(1, 2, 'Justin', 'Hartman', '22 Digital', '7 Lancaster Road', 'Kenilworth', 'Cape Town', 'Western Cape', 'ZA', '7708', '0722290848'),
+(2, 6, 'Justin', 'Hartman', '22 Digital', '47A Woodgate Road', 'Plumstead', 'Cape Town', 'Western Cape', 'ZA', '7708', '0722290848'),
+(3, 7, 'Justin', 'Hartman', '22 Digital', '47a woodgate road', 'Plumstead', 'Cape Town', 'Western Cape', 'ZA', '8000', '+27722290848');
 
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `wishlist`
 --
+-- Creation: Oct 16, 2018 at 07:58 PM
+-- Last update: Oct 16, 2018 at 08:52 PM
+--
 
+DROP TABLE IF EXISTS `wishlist`;
 CREATE TABLE `wishlist` (
   `id` int(11) NOT NULL,
   `pid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `wishlist`
 --
 
 INSERT INTO `wishlist` (`id`, `pid`, `uid`, `timestamp`) VALUES
-(1, 1, 6, '2017-10-30 16:36:45'),
-(2, 2, 6, '2017-10-30 16:38:07'),
-(3, 21, 6, '2017-11-06 19:42:35');
+(1, 1, 6, '2018-10-16 16:36:45'),
+(2, 2, 6, '2018-10-16 16:38:07'),
+(3, 21, 6, '2018-10-16 19:42:35'),
+(4, 1, 7, '2018-10-16 22:52:23');
 
 --
 -- Indexes for dumped tables
@@ -334,51 +381,62 @@ ALTER TABLE `wishlist`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `orderitems`
 --
 ALTER TABLE `orderitems`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `ordertracking`
 --
 ALTER TABLE `ordertracking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `usersmeta`
 --
 ALTER TABLE `usersmeta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
