@@ -1,12 +1,39 @@
 <?php
+/**
+ * Advanced PHP 7 eCommerce Website (https://22digital.agency)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (c) 22 Digital (https://22digital.agency)
+ * @copyright Copyright (c) Justin Hartman (https://justinhartman.blog)
+ * @author    Justin Hartman <justin@hartman.me> (https://justinhartman.blog)
+ * @link      https://github.com/justinhartman/complete-php7-ecom-website GitHub Project
+ * @since     0.1.0
+ * @license   https://opensource.org/licenses/AGPL-3.0 AGPL-3.0
+ */
+
+/**
+ * Load the bootstrap file.
+ */
+require __DIR__ . '/config/bootstrap.php';
+
+// We use ouput buffering here because we want to modify the headers after
+// sending the content when we redirect the user to the index page.
 ob_start();
-session_start();
-require_once 'config/connect.php';
-include 'inc/header.php';
-include 'inc/nav.php';
 if (isset($_GET['id']) & !empty($_GET['id'])) {
     $id = $_GET['id'];
-    $prodsql = "SELECT * FROM products WHERE id=$id";
+    $prodsql = "SELECT * FROM `products` WHERE `id`=$id";
     $prodres = mysqli_query($connection, $prodsql);
     $prodr = mysqli_fetch_assoc($prodres);
 } else {
@@ -17,7 +44,7 @@ $uid = $_SESSION['customerid'];
 if (isset($_POST) & !empty($_POST)) {
     $review = filter_var($_POST['review'], FILTER_SANITIZE_STRING);
 
-    $revsql = "INSERT INTO reviews (pid, uid, review) VALUES ($id, $uid, '$review')";
+    $revsql = "INSERT INTO `reviews` (`pid`, `uid`, `review`) VALUES ($id, $uid, '$review')";
     $revres = mysqli_query($connection, $revsql);
     if ($revres) {
         $smsg = "Review Submitted Successfully";
@@ -26,6 +53,11 @@ if (isset($_POST) & !empty($_POST)) {
     }
 }
 
+/**
+ * Load the template files.
+ */
+include INC . 'header.php';
+include INC . 'nav.php';
 ?>
 
 <!-- SHOP CONTENT -->
