@@ -13,7 +13,7 @@
                                     $catres = mysqli_query($connection, $catsql);
                                     while ($catr = mysqli_fetch_assoc($catres)) {
                                         ?>
-                                        <li><a href="index.php?id=<?php echo $catr['id']; ?>"><?php echo $catr['name']; ?></a></li>
+                                        <li><a href="<?php echo getenv('STORE_URL'); ?>/index.php?id=<?php echo $catr['id']; ?>"><?php echo $catr['name']; ?></a></li>
                                         <?php
                                     } ?>
                                 </ul>
@@ -57,12 +57,14 @@
                                             $navcartres = mysqli_query($connection, $navcartsql);
                                             $navcartr = mysqli_fetch_assoc($navcartres); ?>
                                             <div class="ci-item">
-                                                <img src="admin/<?php echo $navcartr['thumb']; ?>" width="70" alt=""/>
+                                                <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $navcartr['thumb']; ?>" width="70" alt=""/>
                                                 <div class="ci-item-info">
-                                                    <h5><a href="single.php?id=<?php echo $navcartr['id']; ?>"><?php echo substr($navcartr['name'], 0, 20); ?></a></h5>
+                                                    <h5>
+                                                        <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $navcartr['id']; ?>"><?php echo substr($navcartr['name'], 0, 20); ?></a>
+                                                    </h5>
                                                     <p><?php echo $value['quantity']; ?> x R <?php echo $navcartr['price']; ?></p>
                                                     <div class="ci-edit">
-                                                        <a href="delcart.php?id=<?php echo $key; ?>" class="edit fa fa-trash"></a>
+                                                        <a href="<?php echo getenv('STORE_URL'); ?>/delcart.php?id=<?php echo $key; ?>" class="edit fa fa-trash"></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -71,8 +73,8 @@
                                         } ?>
                                     <div class="ci-total">Subtotal: R <?php echo $total; ?></div>
                                     <div class="cart-btn">
-                                        <a href="cart.php">View Bag</a>
-                                        <a href="checkout.php">Checkout</a>
+                                        <a href="<?php echo getenv('STORE_URL'); ?>/cart.php">View Bag</a>
+                                        <a href="<?php echo getenv('STORE_URL'); ?>/checkout.php">Checkout</a>
                                     </div>
                                     <?php
                                     } ?>
