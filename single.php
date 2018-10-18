@@ -256,7 +256,6 @@ include INC . 'nav.php';
             </div>
         </div>
     </div>
-</div>
 </section>
 
 <?php include INC . 'footer.php' ?>
