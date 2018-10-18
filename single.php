@@ -113,7 +113,7 @@ include INC . 'nav.php';
                             <div class="product-meta">
                                 <span>Categories:
                                     <?php
-                                    $prodcatsql = "SELECT * FROM category WHERE id={$prodr['catid']}";
+                                    $prodcatsql = "SELECT * FROM `category` WHERE `id`={$prodr['catid']}";
                                     $prodcatres = mysqli_query($connection, $prodcatsql);
                                     $prodcatr = mysqli_fetch_assoc($prodcatres);
                                     ?>
@@ -148,7 +148,7 @@ include INC . 'nav.php';
                             <div style="" class="tab-pane fade" id="mini-three">
                                 <div class="col-md-12">
                                     <?php
-                                    $revcountsql = "SELECT count(*) AS count FROM reviews r WHERE r.pid=$id";
+                                    $revcountsql = "SELECT count(*) AS `count` FROM `reviews` `r` WHERE `r`.`pid`=$id";
                                     $revcountres = mysqli_query($connection, $revcountsql);
                                     $revcountr = mysqli_fetch_assoc($revcountres);
 
@@ -156,7 +156,7 @@ include INC . 'nav.php';
                                     <h4 class="uppercase space35"><?php echo $revcountr['count']; ?> Reviews for <?php echo substr($prodr['name'], 0, 20); ?></h4>
                                     <ul class="comment-list">
                                         <?php
-                                        $selrevsql = "SELECT u.firstname, u.lastname, r.`timestamp`, r.review FROM reviews r JOIN usersmeta u WHERE r.uid=u.uid AND r.pid=$id";
+                                        $selrevsql = "SELECT `u`.`firstname`, `u`.`lastname`, `r`.`timestamp`, `r`.`review` FROM `reviews` `r` JOIN `usersmeta` `u` WHERE `r`.`uid`=`u`.`uid` AND `r`.`pid`=$id";
                                         $selrevres = mysqli_query($connection, $selrevsql);
                                         while ($selrevr = mysqli_fetch_assoc($selrevres)) {
                                             ?>
@@ -179,7 +179,7 @@ include INC . 'nav.php';
                                         } ?>
                                     </ul>
                                     <?php
-                                    $chkrevsql = "SELECT count(*) reviewcount FROM reviews r WHERE r.uid=$uid";
+                                    $chkrevsql = "SELECT count(*) `reviewcount` FROM `reviews` `r` WHERE r.uid=$uid";
                                     $chkrevres = mysqli_query($connection, $chkrevsql);
                                     $chkrevr = mysqli_fetch_assoc($chkrevres);
                                     if ($chkrevr['reviewcount'] >= 1) {
@@ -189,7 +189,7 @@ include INC . 'nav.php';
                                         <h4 class="uppercase space20">Add a review</h4>
                                         <form id="form" class="review-form" method="post">
                                             <?php
-                                            $usersql = "SELECT u.email, u1.firstname, u1.lastname FROM users u JOIN usersmeta u1 WHERE u.id=u1.uid AND u.id=$uid";
+                                            $usersql = "SELECT `u`.`email`, `u1`.`firstname`, `u1`.`lastname` FROM `users` `u` JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`=$uid";
                                             $userres = mysqli_query($connection, $usersql);
                                             $userr = mysqli_fetch_assoc($userres); ?>
                                             <div class="row">
@@ -223,7 +223,7 @@ include INC . 'nav.php';
                     <div id="shop-mason" class="shop-mason-3col">
 
                         <?php
-                        $relsql = "SELECT * FROM products WHERE id != $id ORDER BY rand() LIMIT 3";
+                        $relsql = "SELECT * FROM `products` WHERE `id` != $id ORDER BY rand() LIMIT 3";
                         $relres = mysqli_query($connection, $relsql);
                         while ($relr = mysqli_fetch_assoc($relres)) {
                             ?>
