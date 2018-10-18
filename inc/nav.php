@@ -62,7 +62,7 @@
                                                     <h5>
                                                         <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $navcartr['id']; ?>"><?php echo substr($navcartr['name'], 0, 20); ?></a>
                                                     </h5>
-                                                    <p><?php echo $value['quantity']; ?> x R <?php echo $navcartr['price']; ?></p>
+                                                    <p><?php echo $value['quantity'] . ' x ' . getenv('STORE_CURRENCY') . $navcartr['price']; ?></p>
                                                     <div class="ci-edit">
                                                         <a href="<?php echo getenv('STORE_URL'); ?>/delcart.php?id=<?php echo $key; ?>" class="edit fa fa-trash"></a>
                                                     </div>
@@ -71,7 +71,7 @@
                                             <?php
                                             $total = $total + ($navcartr['price']*$value['quantity']);
                                         } ?>
-                                    <div class="ci-total">Subtotal: R <?php echo $total; ?></div>
+                                    <div class="ci-total">Subtotal: <?php echo getenv('STORE_CURRENCY') . $total; ?></div>
                                     <div class="cart-btn">
                                         <a href="<?php echo getenv('STORE_URL'); ?>/cart.php">View Bag</a>
                                         <a href="<?php echo getenv('STORE_URL'); ?>/checkout.php">Checkout</a>
