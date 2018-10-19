@@ -1,7 +1,29 @@
 # Project Change-Log
 
-Below is a detailed change-log, along with specific tasks completed, for each 
+Below is a detailed change-log, along with specific tasks completed, for each
 version released to date.
+
+## Version 0.3.0 (19/10/2018)
+
+- [#new](#new)
+  - Added STORE_NAME env variable.
+  - Added new STORE_TAGLINE env variable.
+- [#enhancement](#enhancement)
+  - Moved js, css and font-awesome into new assets folder. Updated template files.
+  - Modified the core files to include bootstrap.php and set proper includes.
+  - Added STORE_CURRENCY env variable. Updated nav.php.
+  - Updated Nav links.
+- [#bugfix](#bugfix)
+  - Fixed out layout problems with login page.
+  - Enclosed the SQL statements in single.php.
+  - Removed extra div tag in single.php.
+  - Fixed broken layout on single.php file.
+
+## Version 0.2.1 (18/10/2018)
+
+- [#bugfix](#bugfix)
+  - Added SITE_URL environment variable and updated links in templates.
+  - Fixed PHP warnings with cart when it has zero items in it.
 
 ## Version 0.2.0 (18/10/2018)
 
@@ -13,7 +35,7 @@ version released to date.
   - Index now loads requirements and bootstrap file.
 - [#enhancement](#enhancement)
   - Renamed & moved DB schema and dump files.
-  - Updated DB connect to use dotenv. 
+  - Updated DB connect to use dotenv.
   - New include method for templates.
 
 ## Version 0.1.0 (17/10/2018)
@@ -23,7 +45,7 @@ version released to date.
   - New template files in `/inc`.
   - New Admin area files in `/admin`.
   - New `/config` file.
-  - New website template design with `/css/`, `/font-awesome/` and `/js/` 
+  - New website template design with `/css/`, `/font-awesome/` and `/js/`
     folders.
 - [#enhancement](#enhancement)
   - Added GitHub template files.
