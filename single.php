@@ -67,7 +67,7 @@ include INC . 'nav.php';
             <div class="row">
                 <div class="page_header text-center">
                     <h2>Shop</h2>
-                    <p>Tagline here...</p>
+                    <p><?php echo getenv('STORE_TAGLINE'); ?></p>
                 </div>
                 <div class="col-md-10 col-md-offset-1">
                     <?php if (isset($fmsg)) {

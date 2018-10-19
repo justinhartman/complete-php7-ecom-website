@@ -47,7 +47,7 @@ include INC . 'nav.php';
             <div class="row">
                 <div class="page_header text-center">
                     <h2>Shop</h2>
-                    <p>You can order products from here</p>
+                    <p>Browse our collection of Products to find just what you are looking for.</p>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
