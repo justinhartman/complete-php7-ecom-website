@@ -109,8 +109,8 @@ $cart = $_SESSION['cart'];
                     <br>
 
                     <div class="ma-address">
-                        <h3>My Addresses</h3>
-                        <p>The following addresses will be used on the checkout page by default.</p>
+                        <h3>My Address</h3>
+                        <p>The following address will be used on the checkout page.</p>
 
                         <div class="row">
                             <div class="col-md-6">

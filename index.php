@@ -53,23 +53,23 @@ include INC . 'nav.php';
                     <div class="row">
                         <div id="shop-mason" class="shop-mason-4col">
                             <?php
-                            $sql = "SELECT * FROM products";
+                            $sql = "SELECT * FROM `products`";
                             if (isset($_GET['id']) & !empty($_GET['id'])) {
                                 $id = $_GET['id'];
-                                $sql .= " WHERE catid=$id";
+                                $sql .= " WHERE `catid`=$id";
                             }
 
                             $res = mysqli_query($connection, $sql);
                             while ($r = mysqli_fetch_assoc($res)) {
-                                ?>
+                            ?>
                                 <div class="sm-item isotope-item">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <img src="admin/<?php echo $r['thumb']; ?>" class="img-responsive" width="250px" alt="">
+                                            <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $r['thumb']; ?>" class="img-responsive" width="250px" alt="">
                                             <div class="product-overlay">
                                                 <span>
-                                                    <a href="single.php?id=<?php echo $r['id']; ?>" class="fa fa-link"></a>
-                                                    <a href="addtocart.php?id=<?php echo $r['id']; ?>" class="fa fa-shopping-cart"></a>
+                                                    <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $r['id']; ?>" class="fa fa-link"></a>
+                                                    <a href="<?php echo getenv('STORE_URL'); ?>/addtocart.php?id=<?php echo $r['id']; ?>" class="fa fa-shopping-cart"></a>
                                                 </span>
                                             </div>
                                         </div>
@@ -80,8 +80,8 @@ include INC . 'nav.php';
                                             <span class="fa fa-star act"></span>
                                             <span class="fa fa-star act"></span>
                                         </div>
-                                        <h2 class="product-title"><a href="single.php?id=<?php echo $r['id']; ?>"><?php echo $r['name']; ?></a></h2>
-                                        <div class="product-price">R <?php echo $r['price']; ?>.00<span></span></div>
+                                        <h2 class="product-title"><a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $r['id']; ?>"><?php echo $r['name']; ?></a></h2>
+                                        <div class="product-price"><?php echo getenv('STORE_CURRENCY') . $r['price']; ?><span></span></div>
                                     </div>
                                 </div>
                                 <?php
