@@ -35,6 +35,8 @@ include INC . 'header.php';
 include INC . 'nav.php';
 
 $cart = $_SESSION['cart'];
+$count = count($cart);
+echo $count;
 ?>
 
 
@@ -44,11 +46,11 @@ $cart = $_SESSION['cart'];
         <div class="container">
             <div class="row">
                 <div class="page_header text-center">
-                    <h2>Shop Cart</h2>
-                    <p>Get the best kit for smooth shave</p>
+                    <h2>Shopping Cart</h2>
+                    <p>View the items in your shopping cart, apply a coupon or delete any items you don't need.</p>
                 </div>
+            <?php if ($count !== 0) { ?>
                 <div class="col-md-12">
-
                     <table class="cart-table table table-bordered">
                         <thead>
                             <tr>
@@ -62,55 +64,53 @@ $cart = $_SESSION['cart'];
                         </thead>
                         <tbody>
                             <?php
-                            //print_r($cart);
-                            $total = 0;
-                            foreach ($cart as $key => $value) {
-                                //echo $key . " : " . $value['quantity'] ."<br>";
-                                $cartsql = "SELECT * FROM products WHERE id=$key";
-                                $cartres = mysqli_query($connection, $cartsql);
-                                $cartr = mysqli_fetch_assoc($cartres); ?>
-                                <tr>
-                                    <td>
-                                        <a class="remove" href="delcart.php?id=<?php echo $key; ?>"><i class="fa fa-times"></i></a>
-                                    </td>
-                                    <td>
-                                        <a href="#"><img src="admin/<?php echo $cartr['thumb']; ?>" alt="" height="90" width="90"></a>
-                                    </td>
-                                    <td>
-                                        <a href="single.php?id=<?php echo $cartr['id']; ?>"><?php echo substr($cartr['name'], 0, 30); ?></a>
-                                    </td>
-                                    <td>
-                                        <span class="amount">R<?php echo $cartr['price']; ?>.00</span>
-                                    </td>
-                                    <td>
-                                        <div class="quantity"><?php echo $value['quantity']; ?></div>
-                                    </td>
-                                    <td>
-                                        <span class="amount">R<?php echo($cartr['price']*$value['quantity']); ?>.00</span>
-                                    </td>
-                                </tr>
-                                <?php
-                                $total = $total + ($cartr['price']*$value['quantity']);
-                            } ?>
+                                foreach ($cart as $key => $value) {
+                                    $cartsql = "SELECT * FROM `products` WHERE `id`=$key";
+                                    $cartres = mysqli_query($connection, $cartsql);
+                                    $cartr = mysqli_fetch_assoc($cartres);
+            				 ?>
+                            <tr>
+                                <td>
+                                    <a class="remove" href="<?php echo getenv('STORE_URL'); ?>/delcart.php?id=<?php echo $key; ?>"><i class="fa fa-times"></i></a>
+                                </td>
+                                <td>
+                                    <a href="#"><img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $cartr['thumb']; ?>" alt="" height="90" width="90"></a>
+                                </td>
+                                <td>
+                                    <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $cartr['id']; ?>"><?php echo substr($cartr['name'], 0 , 30); ?></a>
+                                </td>
+                                <td>
+                                    <span class="amount"><?php echo getenv('STORE_CURRENCY') .  $cartr['price']; ?></span>
+                                </td>
+                                <td>
+                                    <div class="quantity"><?php echo $value['quantity']; ?></div>
+                                </td>
+                                <td>
+                                    <span class="amount"><?php echo getenv('STORE_CURRENCY') .  ($cartr['price']*$value['quantity']); ?></span>
+                                </td>
+                            </tr>
+                            <?php
+                                    $total = $total + ($cartr['price']*$value['quantity']);
+                                }
+                            ?>
                             <tr>
                                 <td colspan="6" class="actions">
                                     <div class="col-md-6">
-                                        <!--	<div class="coupon">
-                                        <label>Coupon:</label><br>
-                                        <input placeholder="Coupon code" type="text"> <button type="submit">Apply</button>
-                                    </div> -->
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="cart-btn">
-                                        <!-- <button class="button btn-md" type="submit">Update Cart</button> -->
-                                        <a href="checkout.php" class="button btn-md" >Checkout</a>
+                                        <div class="coupon">
+                                            <label>Coupon:</label><br>
+                                            <input placeholder="Coupon code" type="text"><button type="submit">Apply</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                                    <div class="col-md-6">
+                                        <div class="cart-btn">
+                                            <a href="<?php echo getenv('STORE_URL'); ?>/checkout.php" class="button btn-md" style="color:white;">Checkout</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="cart_totals">
                     <div class="col-md-6 push-md-6 no-padding">
                         <h4 class="heading">Cart Totals</h4>
@@ -118,26 +118,28 @@ $cart = $_SESSION['cart'];
                             <tbody>
                                 <tr>
                                     <th>Cart Subtotal</th>
-                                    <td><span class="amount">R <?php echo $total; ?>.00</span></td>
+                                    <td><span class="amount"><?php echo getenv('STORE_CURRENCY') . $total; ?></span></td>
                                 </tr>
                                 <tr>
                                     <th>Shipping and Handling</th>
-                                    <td>
-                                        Free Shipping
-                                    </td>
+                                    <td>Free Shipping</td>
                                 </tr>
                                 <tr>
                                     <th>Order Total</th>
-                                    <td><strong><span class="amount">R <?php echo $total; ?>.00</span></strong> </td>
+                                    <td><strong><span class="amount"><?php echo getenv('STORE_CURRENCY') . $total; ?></span></strong> </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+            <?php } else { ?>
+                <div class="col-md-6 col-md-offset-3">
+                    <h2>Your shopping cart is empty. It's pretty lonely over here, why not add something to it?</h2>
+                </div>
+            <?php } ?>
             </div>
         </div>
     </div>
-</div>
 </section>
 
-<?php include INC . 'footer.php' ?>
+<?php include INC . 'footer.php'; ?>
