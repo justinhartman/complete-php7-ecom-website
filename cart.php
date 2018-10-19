@@ -36,7 +36,6 @@ include INC . 'nav.php';
 
 $cart = $_SESSION['cart'];
 $count = count($cart);
-echo $count;
 ?>
 
 
