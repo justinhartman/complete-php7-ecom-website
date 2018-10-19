@@ -43,6 +43,15 @@ include INC . 'nav.php';
 
 $uid = $_SESSION['customerid'];
 $cart = $_SESSION['cart'];
+
+/**
+ * Get the order ID else redirect user to the my-account page.
+ */
+if (isset($_GET['id']) & !empty($_GET['id'])) {
+    $oid = $_GET['id'];
+} else {
+    header('location: my-account.php');
+}
 ?>
 
 <!-- SHOP CONTENT -->
@@ -50,8 +59,17 @@ $cart = $_SESSION['cart'];
     <div class="content-blog content-account">
         <div class="container">
             <div class="row">
+            <?php
+				$ordsql = "SELECT * FROM `orders` WHERE `uid`='$uid' AND `id`='$oid'";
+				$ordres = mysqli_query($connection, $ordsql);
+				$ordr = mysqli_fetch_assoc($ordres);
+				$orditmsql = "SELECT * FROM `orderitems` `oi`, `orders` `o` JOIN `products` `p` WHERE `o`.`uid`='$uid' AND `o`.`id`='$oid' AND `oi`.`orderid`='$oid' AND `oi`.`pid`=`p`.`id`";
+				$orditmres = mysqli_query($connection, $orditmsql);
+
+				if (mysqli_num_rows($orditmres) !== 0) {
+			?>
                 <div class="page_header text-center">
-                    <h2>My Account</h2>
+                    <h2>Order #<?php echo $oid; ?></h2>
                 </div>
                 <div class="col-md-12">
                     <h3>Recent Orders</h3>
@@ -62,61 +80,40 @@ $cart = $_SESSION['cart'];
                                 <th>Product Name</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
-                                <th></th>
                                 <th>Total Price</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            <?php
-
-                            if (isset($_GET['id']) & !empty($_GET['id'])) {
-                                $oid = $_GET['id'];
-                            } else {
-                                header('location: my-account.php');
-                            }
-                            $ordsql = "SELECT * FROM orders WHERE uid='$uid' AND id='$oid'";
-                            $ordres = mysqli_query($connection, $ordsql);
-                            $ordr = mysqli_fetch_assoc($ordres);
-
-                            $orditmsql = "SELECT * FROM orderitems o JOIN products p WHERE o.orderid=3 AND o.pid=p.id";
-                            $orditmres = mysqli_query($connection, $orditmsql);
-                            while ($orditmr = mysqli_fetch_assoc($orditmres)) {
-                                ?>
-                                <tr>
-                                    <td>
-                                        <a href="single.php?id=<?php echo $orditmr['pid']; ?>"><?php echo substr($orditmr['name'], 0, 25); ?></a>
-                                    </td>
-                                    <td>
-                                        <?php echo $orditmr['pquantity']; ?>
-                                    </td>
-                                    <td>
-                                        R <?php echo $orditmr['productprice']; ?>
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        R <?php echo $orditmr['productprice']*$orditmr['pquantity']; ?>
-                                    </td>
-                                </tr>
-                                <?php
-                            } ?>
+                        <?php while ($orditmr = mysqli_fetch_assoc($orditmres)) { ?>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $orditmr['pid']; ?>"><?php echo substr($orditmr['name'], 0, 25); ?></a>
+                                </td>
+                                <td>
+                                    <?php echo $orditmr['pquantity']; ?>
+                                </td>
+                                <td>
+                                    <?php echo getenv('STORE_CURRENCY') . $orditmr['productprice']; ?>
+                                </td>
+                                <td>
+                                    <?php echo getenv('STORE_CURRENCY') . $orditmr['productprice']*$orditmr['pquantity']; ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                                 <td>
                                     Order Total
                                 </td>
                                 <td>
-                                    <?php echo $ordr['totalprice']; ?>
+                                    <?php echo getenv('STORE_CURRENCY') . $ordr['totalprice']; ?>
                                 </td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                                 <td>
                                     Order Status
                                 </td>
@@ -125,9 +122,8 @@ $cart = $_SESSION['cart'];
                                 </td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                                 <td>
                                     Order Placed On
                                 </td>
@@ -137,7 +133,15 @@ $cart = $_SESSION['cart'];
                             </tr>
                         </tbody>
                     </table>
-
+            <?php } else { ?>
+                <div class="page_header text-center">
+                    <h2>Restricted Access</h2>
+                </div>
+                <div class="col-md-12">
+                    <h3>You do not have access to view this order. Please contact us if you feel this is an error.</h3>
+                </div>
+                <div class="clearfix"></div>
+            <?php } ?>
                     <br>
                     <br>
                     <br>
@@ -148,27 +152,27 @@ $cart = $_SESSION['cart'];
 
                         <div class="row">
                             <div class="col-md-6">
-                                <h4>My Address <a href="edit-address.php">Edit</a></h4>
-                                <?php
-                                $csql = "SELECT u1.firstname, u1.lastname, u1.address1, u1.address2, u1.city, u1.state, u1.country, u1.company, u.email, u1.mobile, u1.zip FROM users u JOIN usersmeta u1 WHERE u.id=u1.uid AND u.id=$uid";
-                                $cres = mysqli_query($connection, $csql);
-                                if (mysqli_num_rows($cres) == 1) {
-                                    $cr = mysqli_fetch_assoc($cres);
-                                    echo "<p>".$cr['firstname'] ." ". $cr['lastname'] ."</p>";
-                                    echo "<p>".$cr['address1'] ."</p>";
-                                    echo "<p>".$cr['address2'] ."</p>";
-                                    echo "<p>".$cr['city'] ."</p>";
-                                    echo "<p>".$cr['state'] ."</p>";
-                                    echo "<p>".$cr['country'] ."</p>";
-                                    echo "<p>".$cr['company'] ."</p>";
-                                    echo "<p>".$cr['zip'] ."</p>";
-                                    echo "<p>".$cr['mobile'] ."</p>";
-                                    echo "<p>".$cr['email'] ."</p>";
-                                }
-                                ?>
+                                <h4>My Address <a href="<?php echo getenv('STORE_URL'); ?>/edit-address.php">Edit</a></h4>
+                            <?php
+        						$csql = "SELECT `u1`.`firstname`, `u1`.`lastname`, `u1`.`address1`, `u1`.`address2`, `u1`.`city`, `u1`.`state`, `u1`.`country`, `u1`.`company`, `u`.`email`, `u1`.`mobile`, `u1`.`zip` FROM `users` `u` JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`=$uid";
+        						$cres = mysqli_query($connection, $csql);
+        						if(mysqli_num_rows($cres) == 1){
+        							$cr = mysqli_fetch_assoc($cres);
+        							echo "<p>".$cr['firstname'] ." ". $cr['lastname'] ."</p>";
+        							echo "<p>".$cr['address1'] ."</p>";
+        							echo "<p>".$cr['address2'] ."</p>";
+        							echo "<p>".$cr['city'] ."</p>";
+        							echo "<p>".$cr['state'] ."</p>";
+        							echo "<p>".$cr['country'] ."</p>";
+        							echo "<p>".$cr['company'] ."</p>";
+        							echo "<p>".$cr['zip'] ."</p>";
+        							echo "<p>".$cr['mobile'] ."</p>";
+        							echo "<p>".$cr['email'] ."</p>";
+        						}
+        					?>
                             </div>
                             <div class="col-md-6">
-
+                                <!-- This is a spacer. -->
                             </div>
                         </div>
                     </div>
