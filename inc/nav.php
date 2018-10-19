@@ -37,12 +37,10 @@
                                 $count = count($cart);
                             ?>
                             <div class="s-cart">
-                                <div class="sc-ico"><i class="fa fa-shopping-cart"></i><em><?php
+                                <div class="sc-ico"><i class="fa fa-shopping-cart"></i><?php
                                 if ($count !== 0) {
-                                    echo count($cart);
-                                } else {
-                                    echo "0";
-                                } ?></em></div>
+                                    echo "<em>" . count($cart) . "</em>";
+                                } ?></div>
                                 <div class="cart-info">
                                     <small><?php
                                     if ($count !== 0 && $count !== 1) {
