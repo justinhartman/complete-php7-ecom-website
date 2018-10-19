@@ -32,18 +32,23 @@
                             </li>
                         </ul>
                         <div class="header-xtra">
-                            <?php $cart = $_SESSION['cart']; ?>
+                            <?php
+                                $cart = $_SESSION['cart'];
+                                $count = count($cart);
+                            ?>
                             <div class="s-cart">
                                 <div class="sc-ico"><i class="fa fa-shopping-cart"></i><em><?php
-                                if (!is_null($cart)) {
+                                if ($count !== 0) {
                                     echo count($cart);
                                 } else {
                                     echo "0";
                                 } ?></em></div>
                                 <div class="cart-info">
                                     <small><?php
-                                    if (!is_null($cart)) {
+                                    if ($count !== 0 && $count !== 1) {
                                         echo 'You have <em class="highlight"> ' . count($cart) . ' items</em> in your shopping cart.';
+                                    } else if ($count === 1) {
+                                        echo 'You have <em class="highlight"> 1 item</em> in your shopping cart.';
                                     } else {
                                         echo 'Your shopping cart is empty. It\'s pretty lonely over here, why not add something to it?';
                                     } ?>
@@ -51,7 +56,8 @@
                                     <br>
                                     <br>
                                     <?php
-                                    if (!is_null($total)) {
+                                    $count = count($_SESSION['cart']);
+                                    if ($count !== 0) {
                                         foreach ($cart as $key => $value) {
                                             $navcartsql = "SELECT * FROM `products` WHERE `id`=$key";
                                             $navcartres = mysqli_query($connection, $navcartsql);
@@ -69,9 +75,9 @@
                                                 </div>
                                             </div>
                                             <?php
-                                            $total = $total + ($navcartr['price']*$value['quantity']);
+                                            $cartTotal = $cartTotal + ($navcartr['price']*$value['quantity']);
                                         } ?>
-                                    <div class="ci-total">Subtotal: <?php echo getenv('STORE_CURRENCY') . $total; ?></div>
+                                    <div class="ci-total">Subtotal: <?php echo getenv('STORE_CURRENCY') . $cartTotal; ?></div>
                                     <div class="cart-btn">
                                         <a href="<?php echo getenv('STORE_URL'); ?>/cart.php">View Bag</a>
                                         <a href="<?php echo getenv('STORE_URL'); ?>/checkout.php">Checkout</a>
