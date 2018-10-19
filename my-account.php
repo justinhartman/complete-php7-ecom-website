@@ -70,7 +70,7 @@ $cart = $_SESSION['cart'];
                         <tbody>
 
                             <?php
-                            $ordsql = "SELECT * FROM orders WHERE uid='$uid'";
+                            $ordsql = "SELECT * FROM `orders` WHERE `uid`='$uid'";
                             $ordres = mysqli_query($connection, $ordsql);
                             while ($ordr = mysqli_fetch_assoc($ordres)) {
                                 ?>
@@ -88,13 +88,13 @@ $cart = $_SESSION['cart'];
                                         <?php echo $ordr['paymentmode']; ?>
                                     </td>
                                     <td>
-                                        INR <?php echo $ordr['totalprice']; ?>/-
+                                        <?php echo getenv('STORE_CURRENCY') . $ordr['totalprice']; ?>
                                     </td>
                                     <td>
-                                        <a href="view-order.php?id=<?php echo $ordr['id']; ?>">View</a>
+                                        <a href="<?php echo getenv('STORE_URL'); ?>/view-order.php?id=<?php echo $ordr['id']; ?>">View</a>
                                         <?php if ($ordr['orderstatus'] != 'Cancelled') {
                                             ?>
-                                            | <a href="cancel-order.php?id=<?php echo $ordr['id']; ?>">Cancel</a>
+                                            | <a href="<?php echo getenv('STORE_URL'); ?>/cancel-order.php?id=<?php echo $ordr['id']; ?>">Cancel</a>
                                             <?php
                                         } ?>
                                     </td>
@@ -114,9 +114,9 @@ $cart = $_SESSION['cart'];
 
                         <div class="row">
                             <div class="col-md-6">
-                                <h4>My Address <a href="edit-address.php">Edit</a></h4>
+                                <h4>My Address <a href="<?php echo getenv('STORE_URL'); ?>/edit-address.php">Edit</a></h4>
                                 <?php
-                                $csql = "SELECT u1.firstname, u1.lastname, u1.address1, u1.address2, u1.city, u1.state, u1.country, u1.company, u.email, u1.mobile, u1.zip FROM users u JOIN usersmeta u1 WHERE u.id=u1.uid AND u.id=$uid";
+                                $csql = "SELECT `u1`.`firstname`, `u1`.`lastname`, `u1`.`address1`, `u1`.`address2`, `u1`.`city`, `u1`.`state`, `u1`.`country`, `u1`.`company`, `u`.`email`, `u1`.`mobile`, `u1`.`zip` FROM `users` `u` JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`=$uid";
                                 $cres = mysqli_query($connection, $csql);
                                 if (mysqli_num_rows($cres) == 1) {
                                     $cr = mysqli_fetch_assoc($cres);
