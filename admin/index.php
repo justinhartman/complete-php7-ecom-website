@@ -1,12 +1,50 @@
 <?php
-session_start();
-require_once '../config/connect.php';
+/**
+ * Advanced PHP 7 eCommerce Website (https://22digital.agency)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (c) 22 Digital (https://22digital.agency)
+ * @copyright Copyright (c) Justin Hartman (https://justinhartman.blog)
+ * @author    Justin Hartman <justin@hartman.me> (https://justinhartman.blog)
+ * @link      https://github.com/justinhartman/complete-php7-ecom-website GitHub Project
+ * @since     0.1.0
+ * @license   https://opensource.org/licenses/AGPL-3.0 AGPL-3.0
+ */
+
+/**
+ * Check platform requirements.
+ */
+require '../config/requirements.php';
+
+/**
+ * Load the bootstrap file.
+ */
+require '../config/bootstrap.php';
+
+/**
+ * Check if the user is logged in or not.
+ */
 if (!isset($_SESSION['email']) & empty($_SESSION['email'])) {
     header('location: login.php');
 }
-?>
 
-<?php include 'inc/header.php'; ?>
+/**
+ * Load the template files.
+ */
+include ADMIN_INC . 'header.php';
+?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 google.charts.load('current', {'packages':['corechart']});
@@ -53,7 +91,7 @@ function drawChart1() {
 }
 </script>
 
-<?php include 'inc/nav.php'; ?>
+<?php include ADMIN_INC . 'nav.php'; ?>
 
 <!-- SHOP CONTENT -->
 <section id="content">
@@ -62,7 +100,7 @@ function drawChart1() {
             <div class="row">
                 <div class="page_header text-center">
                     <h2>Dashboard</h2>
-                    <!-- <p>You can order products from here</p> -->
+                    <p>An overview of key insights for your Store.</p>
                 </div>
                 <div class="col-md-6">
                     <div class="row">
@@ -78,4 +116,4 @@ function drawChart1() {
         </div>
     </div>
 </section>
-<?php include 'inc/footer.php' ?>
+<?php include ADMIN_INC . 'footer.php'; ?>
