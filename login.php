@@ -41,8 +41,8 @@ include INC . 'nav.php';
         <div class="container">
             <div class="row">
                 <div class="page_header text-center">
-                    <h2>Shop - Account</h2>
-                    <p>Tagline Here</p>
+                    <h2>Account</h2>
+                    <p><?php echo getenv('STORE_TAGLINE'); ?></p>
                 </div>
                 <div class="col-md-12">
                     <div class="row shop-login">
@@ -56,7 +56,7 @@ include INC . 'nav.php';
                                         <?php
                                     }
                                 } ?>
-                                <form class="logregform" method="post" action="loginprocess.php">
+                                <form class="logregform" method="post" action="<?php echo getenv('STORE_URL'); ?>/loginprocess.php">
                                     <div class="row">
                                         <div class="form-group">
                                             <div class="col-md-12">
@@ -69,7 +69,7 @@ include INC . 'nav.php';
                                     <div class="row">
                                         <div class="form-group">
                                             <div class="col-md-12">
-                                                <!-- <a class="pull-right" href="#">(Lost Password?)</a> -->
+                                                <a class="pull-right" href="#">(Lost Password?)</a>
                                                 <label>Password</label>
                                                 <input type="password" name="password" value="" class="form-control">
                                             </div>
@@ -78,60 +78,60 @@ include INC . 'nav.php';
                                     <div class="clearfix space20"></div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <!-- <span class="remember-box checkbox">
+                                            <span class="remember-box checkbox">
                                                     <label for="rememberme">
                                                     <input type="checkbox" id="rememberme" name="rememberme">Remember Me
                                                 </label>
-                                            </span> -->
+                                            </span>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="submit" class="button btn-md pull-right">Login</button>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="button btn-md pull-right">Login</button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="box-content">
-                        <h3 class="heading text-center">Register An Account</h3>
-                        <div class="clearfix space40"></div>
-                        <?php if (isset($_GET['message'])) {
-                            if ($_GET['message'] == 2) {
-                                ?><div class="alert alert-danger" role="alert"> <?php echo "Failed to Register"; ?> </div>
-                                <?php
-                            }
-                        } ?>
-                        <form class="logregform" method="post" action="registerprocess.php">
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <label>E-mail Address</label>
-                                        <input type="email" name="email" value="" class="form-control">
+                        <div class="col-md-6">
+                            <div class="box-content">
+                                <h3 class="heading text-center">Register An Account</h3>
+                                <div class="clearfix space40"></div>
+                                <?php if (isset($_GET['message'])) {
+                                    if ($_GET['message'] == 2) {
+                                        ?><div class="alert alert-danger" role="alert"> <?php echo "Failed to Register"; ?> </div>
+                                        <?php
+                                    }
+                                } ?>
+                                <form class="logregform" method="post" action="registerprocess.php">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label>E-mail Address</label>
+                                                <input type="email" name="email" value="" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="clearfix space20"></div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <label>Password</label>
-                                        <input type="password" name="password" value="" class="form-control">
+                                    <div class="clearfix space20"></div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-6">
+                                                <label>Password</label>
+                                                <input type="password" name="password" value="" class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Re-enter Password</label>
+                                                <input type="password" name="passwordagain" value="" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label>Re-enter Password</label>
-                                        <input type="password" name="passwordagain" value="" class="form-control">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="space20"></div>
+                                            <button type="submit" class="button btn-md pull-right">Register</button>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="space20"></div>
-                                    <button type="submit" class="button btn-md pull-right">Register</button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
