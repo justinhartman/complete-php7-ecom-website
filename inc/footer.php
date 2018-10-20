@@ -83,8 +83,13 @@
                     </div>
                 </div>
             </footer>
-            <!-- FOOTER -->
-            <div id="map-pop"></div>
+            <!-- // TODO: The div below is the Google Maps integration but I have hidden it from the browser
+                view with the display:none CSS declaration. I don't want this on every page but if we don't
+                include the "map-pop" on every page then we get Console errors. The Google Maps & gmap.js
+                scripts need to be moved out of the footer and into a new contact.php page and then we can
+                move "map-pop" to this page. This will mean we only load the JavaScript and actual Google Map
+                on the Contact page and it is not referenced again across the site. -->
+            <div id="map-pop" style="display:none"></div>
         </div>
 
         <!-- Javascript -->
@@ -110,6 +115,7 @@
         <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/jquery.prettyphoto.js"></script>
         <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/script.js"></script>
         <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/booking.js"></script>
+        <!-- // TODO: The two script tags below need to be removed from the Footer and placed on the Contact page only. -->
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo getenv('GOOGLE_MAPS_API_KEY', null); ?>&v=quarterly&callback=initMap" type="text/javascript"></script>
         <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/gmap.js"></script>
     </body>
