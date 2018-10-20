@@ -142,4 +142,4 @@ $r = mysqli_fetch_assoc($res);
 		</div>
 	</section>
 
-<?php include INC . 'footer.php' ?>
+<?php include INC . 'footer.php'; ?>

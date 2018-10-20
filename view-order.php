@@ -182,4 +182,4 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
     </div>
 </section>
 
-<?php include INC . 'footer.php' ?>
+<?php include INC . 'footer.php'; ?>

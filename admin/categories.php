@@ -39,4 +39,4 @@ if (!isset($_SESSION['email']) & empty($_SESSION['email'])) {
     </div>
 </section>
 
-<?php include 'inc/footer.php' ?>
+<?php include 'inc/footer.php'; ?>

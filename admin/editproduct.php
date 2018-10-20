@@ -121,4 +121,4 @@ if (isset($_POST) & !empty($_POST)) {
     </div>
 </section>
 
-<?php include 'inc/footer.php' ?>
+<?php include 'inc/footer.php'; ?>

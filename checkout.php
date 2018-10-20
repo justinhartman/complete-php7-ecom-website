@@ -583,4 +583,4 @@ foreach ($cart as $key => $value) {
     </div>
 </section>
 
-<?php include INC . 'footer.php' ?>
+<?php include INC . 'footer.php'; ?>

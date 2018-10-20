@@ -145,4 +145,4 @@ $cart = $_SESSION['cart'];
     </div>
 </section>
 
-<?php include INC . 'footer.php' ?>
+<?php include INC . 'footer.php'; ?>
