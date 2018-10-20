@@ -3,6 +3,13 @@
 Below is a detailed change-log, along with specific tasks completed, for each
 version released to date.
 
+## Version 0.3.2 (20/10/2018)
+
+- [#new](#new)
+  - Added Social Media icons to footer and .env files as variables.
+- [#bugfix](#bugfix)
+  - Check to see if 'cart' session is set.
+  - Fixed the missing ; from the footer.php includes.
 
 ## Version 0.3.1 (20/10/2018)
 
