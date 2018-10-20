@@ -5,6 +5,10 @@ require_once '../config/connect.php';
 if (!isset($_SESSION['email']) & empty($_SESSION['email'])) {
     header('location: login.php');
 }
+/**
+ * Flush the object cache.
+ */
+ob_flush();
 ?>
 <?php include 'inc/header.php'; ?>
 <?php include 'inc/nav.php'; ?>

@@ -36,6 +36,11 @@ if (!isset($_SESSION['customer']) & empty($_SESSION['customer'])) {
 }
 
 /**
+ * Flush the object cache.
+ */
+ob_flush();
+
+/**
  * Load the template files.
  */
 include INC . 'header.php';

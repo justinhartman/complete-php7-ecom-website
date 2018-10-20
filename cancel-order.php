@@ -58,6 +58,11 @@ if (isset($_POST) & !empty($_POST)) {
     }
 }
 
+/**
+ * Flush the object cache.
+ */
+ob_flush();
+
 $sql = "SELECT * FROM usersmeta WHERE uid=$uid";
 $res = mysqli_query($connection, $sql);
 $r = mysqli_fetch_assoc($res);

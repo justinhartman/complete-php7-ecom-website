@@ -36,6 +36,11 @@ if (!isset($_SESSION['customer']) & empty($_SESSION['customer'])) {
 }
 
 /**
+ * Flush the object cache.
+ */
+ob_flush();
+
+/**
  * Load the template files.
  */
 include INC . 'header.php';
@@ -340,7 +345,7 @@ $r = mysqli_fetch_assoc($res);
                             <div class="clearfix space20"></div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>First Name </label>
+                                    <label>First Name</label>
                                     <input name="fname" class="form-control" placeholder="" value="<?php if (!empty($r['firstname'])) {
                                         echo $r['firstname'];
                                     } elseif (isset($fname)) {
@@ -348,7 +353,7 @@ $r = mysqli_fetch_assoc($res);
                                     } ?>" type="text">
                                 </div>
                                 <div class="col-md-6">
-                                    <label>Last Name </label>
+                                    <label>Last Name</label>
                                     <input name="lname" class="form-control" placeholder="" value="<?php if (!empty($r['lastname'])) {
                                         echo $r['lastname'];
                                     } elseif (isset($lname)) {
@@ -364,7 +369,7 @@ $r = mysqli_fetch_assoc($res);
                                 echo $company;
                             } ?>" type="text">
                             <div class="clearfix space20"></div>
-                            <label>Address </label>
+                            <label>Address</label>
                             <input name="address1" class="form-control" placeholder="Street address" value="<?php if (!empty($r['address1'])) {
                                 echo $r['address1'];
                             } elseif (isset($address1)) {
@@ -395,7 +400,7 @@ $r = mysqli_fetch_assoc($res);
                                     } ?>" placeholder="State" type="text">
                                 </div>
                                 <div class="col-md-4">
-                                    <label>Postcode </label>
+                                    <label>Postcode</label>
                                     <input name="zipcode" class="form-control" placeholder="Postcode / Zip" value="<?php if (!empty($r['zip'])) {
                                         echo $r['zip'];
                                     } elseif (isset($zip)) {
@@ -404,14 +409,14 @@ $r = mysqli_fetch_assoc($res);
                                 </div>
                             </div>
                             <div class="clearfix space20"></div>
-                            <label>Phone </label>
+                            <label>Phone</label>
                             <input name="phone" class="form-control" id="billing_phone" placeholder="" value="<?php if (!empty($r['mobile'])) {
                                 echo $r['mobile'];
                             } elseif (isset($phone)) {
                                 echo $phone;
                             } ?>" type="text">
                             <div class="space30"></div>
-                            <input type="submit" class="button btn-lg" value="Update Address">
+                            <input type="submit" class="button btn-md" value="Update Address">
                         </div>
                     </div>
                 </div>

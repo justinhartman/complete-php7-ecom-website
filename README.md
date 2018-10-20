@@ -1,6 +1,7 @@
 # Advanced PHP 7 eCommerce Website
 
-An advanced and complete PHP 7 eCommerce website along with MySQL database and Admin interface.
+An advanced and complete PHP 7 eCommerce website along with MySQL database and
+Admin interface.
 
 ###### Table of Contents
 
@@ -75,7 +76,7 @@ project.
 
 ## License
 
-This project is licensed under the `GNU Affero General Public License` License. 
+This project is licensed under the `GNU Affero General Public License` License.
 See the [LICENSE][license] file for full details.
 
 ## Acknowledgements
@@ -83,7 +84,9 @@ See the [LICENSE][license] file for full details.
 Special thanks go out to the following people and projects who have helped in
 some way to make this project a reality.
 
-- [@justinhartman/.github][.github] - for the Github project templates.
+- [CodingCyber][shopping-source] for the original source code that formed the
+  basis of this project.
+- [@justinhartman/.github][.github] for the Github project templates.
 
 [deploy]: #deployment
 [CONTRIBUTING]: CONTRIBUTING.md
@@ -96,3 +99,4 @@ some way to make this project a reality.
 [contribs]: https://github.com/justinhartman/complete-php7-ecom-website/contributors
 [author-1]: https://github.com/justinhartman
 [.github]: https://github.com/justinhartman/.github
+[shopping-source]: https://codingcyber.org/simple-shopping-cart-application-php-mysql-6394/

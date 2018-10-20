@@ -47,3 +47,8 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
 } else {
     header('location: wishlist.php');
 }
+
+/**
+ * Flush the object cache.
+ */
+ob_flush();

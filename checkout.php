@@ -149,6 +149,11 @@ if (isset($_POST) & !empty($_POST)) {
 }
 
 /**
+ * Flush the object cache.
+ */
+ob_flush();
+
+/**
  * Get users meta-data so we can populate the delivery address.
  */
 $sql = "SELECT * FROM `usersmeta` WHERE `uid`=$uid";

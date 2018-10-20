@@ -40,6 +40,11 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
     header('location: index.php');
 }
 
+/**
+ * Flush the object cache.
+ */
+ob_flush();
+
 $uid = $_SESSION['customerid'];
 if (isset($_POST) & !empty($_POST)) {
     $review = filter_var($_POST['review'], FILTER_SANITIZE_STRING);
