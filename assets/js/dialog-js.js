@@ -5,7 +5,7 @@
 
         dlgtrigger.addEventListener('click', dlg.toggle.bind(dlg));
 
-    })();
+    });
 
 	(function() {
         var dlgtrigger = document.querySelector('[data-dialog1]'),
@@ -14,7 +14,7 @@
 
         dlgtrigger.addEventListener('click', dlg.toggle.bind(dlg));
 
-    })();
+    });
 
 	(function() {
         var dlgtrigger = document.querySelector('[data-dialog2]'),
@@ -23,4 +23,4 @@
 
         dlgtrigger.addEventListener('click', dlg.toggle.bind(dlg));
 
-    })();
+    });
