@@ -6,7 +6,6 @@
                         $cart = $_SESSION['cart'];
                         $count = count($cart);
                     } else {
-                        $cart = '';
                         $count = 0;
                     }
                     ?>

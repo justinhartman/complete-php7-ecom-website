@@ -34,8 +34,13 @@ require __DIR__ . '/config/bootstrap.php';
 include INC . 'header.php';
 include INC . 'nav.php';
 
-$cart = $_SESSION['cart'];
-$count = count($cart);
+// Check to see if the cart is in the session data else default to null.
+// We do this because the $cart and $count variables are used extensively
+// below and will output warnings if we don't.
+if (isset($_SESSION['cart'])) {
+    $cart = $_SESSION['cart'];
+    $count = count($cart);
+}
 ?>
 
 
