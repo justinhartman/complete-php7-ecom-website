@@ -4,9 +4,82 @@
                 <div class="footer-bottom container">
                     <div class="row">
                         <div class="col-md-6">
-                            <p>Copyright &copy; 2018 Copyright Holder All Rights Reserved.</p>
+                            <p><?php echo getenv('STORE_FOOTER'); ?></p>
                         </div>
-                        <div class="col-md-6"></div>
+                        <div class="col-md-6 text-right">
+                            <?php
+                            // Setup the social media variables for the if
+                            // statements and echos.
+                            $fab = getenv('SOCIAL_FACEBOOK', null);
+                            $twt = getenv('SOCIAL_TWITTER', null);
+                            $lin = getenv('SOCIAL_LINKEDIN', null);
+                            $you = getenv('SOCIAL_YOUTUBE', null);
+                            $goo = getenv('SOCIAL_GOOGLE_PLUS', null);
+                            $pin = getenv('SOCIAL_PINTEREST', null);
+                            $ins = getenv('SOCIAL_INSTAGRAM', null);
+                            $fli = getenv('SOCIAL_FLICKR', null);
+                            $vim = getenv('SOCIAL_VIMEO', null);
+                            $red = getenv('SOCIAL_REDDIT', null);
+                            $slk = getenv('SOCIAL_SLACK', null);
+                            $git = getenv('SOCIAL_GITHUB', null);
+                            $bit = getenv('SOCIAL_BITBUCKET', null);
+                            $wha = getenv('SOCIAL_WHATSAPP', null);
+                            $sky = getenv('SOCIAL_SKYPE', null);
+                            $wch = getenv('SOCIAL_WECHAT', null);
+                            $sli = getenv('SOCIAL_SLIDESHARE', null);
+                            $tum = getenv('SOCIAL_TUMBLR', null);
+                            $wor = getenv('SOCIAL_WORDPRESS', null);
+                            $med = getenv('SOCIAL_MEDIUM', null);
+                            $yel = getenv('SOCIAL_YELP', null);
+                            $fsq = getenv('SOCIAL_FOURSQUARE', null);
+                            // Start the if statments to echo the social
+                            // profiles that have been set in .env.
+                            if (!empty($fab)) : ?>
+                            <a href="https://www.facebook.com/<?php echo $fab; ?>"><i class="fa fa-2x fa-facebook-square"></i></a>
+                            <?php endif; if (!empty($twt)) : ?>
+                            <a href="https://twitter.com/<?php echo $twt; ?>"><i class="fa fa-2x fa-twitter-square"></i></a>
+                            <?php endif; if (!empty($lin)) : ?>
+                            <a href="https://linkedin.com/in/<?php echo $lin; ?>"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                            <?php endif; if (!empty($you)) : ?>
+                            <a href="https://youtube.com/<?php echo $you; ?>"><i class="fa fa-2x fa-youtube-square"></i></a>
+                            <?php endif; if (!empty($goo)) : ?>
+                            <a href="https://plus.google.com/<?php echo $goo; ?>"><i class="fa fa-2x fa-google-plus-square"></i></a>
+                            <?php endif; if (!empty($pin)) : ?>
+                            <a href="https://pinterest.com/<?php echo $pin; ?>"><i class="fa fa-2x fa-pinterest-square"></i></a>
+                            <?php endif; if (!empty($ins)) : ?>
+                            <a href="https://instagram.com/<?php echo $ins; ?>"><i class="fa fa-2x fa-instagram"></i></a>
+                            <?php endif; if (!empty($fli)) : ?>
+                            <a href="https://flickr.com/<?php echo $fli; ?>"><i class="fa fa-2x fa-flickr"></i></a>
+                            <?php endif; if (!empty($vim)) : ?>
+                            <a href="https://vimeo.com/<?php echo $vim; ?>"><i class="fa fa-2x fa-vimeo-square"></i></a>
+                            <?php endif; if (!empty($red)) : ?>
+                            <a href="https://reddit.com/<?php echo $red; ?>"><i class="fa fa-2x fa-reddit-square"></i></a>
+                            <?php endif; if (!empty($slk)) : ?>
+                            <a href="https://<?php echo $slk; ?>.slack.com/"><i class="fa fa-2x fa-slack"></i></a>
+                            <?php endif; if (!empty($git)) : ?>
+                            <a href="https://github.com/<?php echo $git; ?>"><i class="fa fa-2x fa-github-square"></i></a>
+                            <?php endif; if (!empty($bit)) : ?>
+                            <a href="https://bitbucket.com/<?php echo $bit; ?>"><i class="fa fa-2x fa-bitbucket-square"></i></a>
+                            <?php endif; if (!empty($wha)) : ?>
+                            <a href="https://api.whatsapp.com/send?phone=<?php echo $wha; ?>"><i class="fa fa-2x fa-whatsapp"></i></a>
+                            <?php endif; if (!empty($sky)) : ?>
+                            <a href="https://skype.com/<?php echo $sky; ?>"><i class="fa fa-2x fa-skype"></i></a>
+                            <?php endif; if (!empty($wch)) : ?>
+                            <a href="https://wechat.com/<?php echo $wch; ?>"><i class="fa fa-2x fa-weixin"></i></a>
+                            <?php endif; if (!empty($sli)) : ?>
+                            <a href="https://www.slideshare.net/<?php echo $sli; ?>"><i class="fa fa-2x fa-slideshare"></i></a>
+                            <?php endif; if (!empty($tum)) : ?>
+                            <a href="https://<?php echo $tum; ?>.tumblr.com/"><i class="fa fa-2x fa-tumblr-square"></i></a>
+                            <?php endif; if (!empty($wor)) : ?>
+                            <a href="https://<?php echo $wor; ?>.wordpress.com/"><i class="fa fa-2x fa-wordpress"></i></a>
+                            <?php endif; if (!empty($med)) : ?>
+                            <a href="https://medium.com/<?php echo $med; ?>"><i class="fa fa-2x fa-medium"></i></a>
+                            <?php endif; if (!empty($yel)) : ?>
+                            <a href="https://yelp.com/biz/<?php echo $yel; ?>"><i class="fa fa-2x fa-yelp"></i></a>
+                            <?php endif; if (!empty($fsq)) : ?>
+                            <a href="https://foursquare.com/<?php echo $fsq; ?>"><i class="fa fa-2x fa-foursquare"></i></a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </footer>
