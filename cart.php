@@ -67,7 +67,7 @@ $count = count($cart);
                                     $cartsql = "SELECT * FROM `products` WHERE `id`=$key";
                                     $cartres = mysqli_query($connection, $cartsql);
                                     $cartr = mysqli_fetch_assoc($cartres);
-            				 ?>
+                            ?>
                             <tr>
                                 <td>
                                     <a class="remove" href="<?php echo getenv('STORE_URL'); ?>/delcart.php?id=<?php echo $key; ?>"><i class="fa fa-times"></i></a>

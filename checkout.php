@@ -64,8 +64,7 @@ if (isset($_POST) & !empty($_POST)) {
         $count = mysqli_num_rows($res);
         if ($count == 1) {
             //update data in usersmeta table
-            $usql = "UPDATE `usersmeta` SET `country`='$country', `firstname`='$fname', `lastname`='$lname', `address1`='$address1', `address2`='$address2', `city`='$city', `state`='$state', `zip`='$zip', `company`='$company',
-            `mobile`='$phone' WHERE `uid`=$uid";
+            $usql = "UPDATE `usersmeta` SET `country`='$country', `firstname`='$fname', `lastname`='$lname', `address1`='$address1', `address2`='$address2', `city`='$city', `state`='$state', `zip`='$zip', `company`='$company', `mobile`='$phone' WHERE `uid`=$uid";
             $ures = mysqli_query($connection, $usql) or die(mysqli_error($connection));
             if ($ures) {
                 $total = 0;
@@ -106,8 +105,7 @@ if (isset($_POST) & !empty($_POST)) {
             }
         } else {
             //insert data in usersmeta table
-            $isql = "INSERT INTO `usersmeta` (`country`, `firstname`, `lastname`, `address1`, `address2`, `city`, `state`, `zip`, `company`, `mobile`, `uid`)
-            VALUES ('$country', '$fname', '$lname', '$address1', '$address2', '$city', '$state', '$zip', '$company', '$phone', '$uid')";
+            $isql = "INSERT INTO `usersmeta` (`country`, `firstname`, `lastname`, `address1`, `address2`, `city`, `state`, `zip`, `company`, `mobile`, `uid`) VALUES ('$country', '$fname', '$lname', '$address1', '$address2', '$city', '$state', '$zip', '$company', '$phone', '$uid')";
             $ires = mysqli_query($connection, $isql) or die(mysqli_error($connection));
             if ($ires) {
                 $total = 0;
@@ -150,6 +148,9 @@ if (isset($_POST) & !empty($_POST)) {
     }
 }
 
+/**
+ * Get users meta-data so we can populate the delivery address.
+ */
 $sql = "SELECT * FROM `usersmeta` WHERE `uid`=$uid";
 $res = mysqli_query($connection, $sql);
 $r = mysqli_fetch_assoc($res);
@@ -165,7 +166,6 @@ foreach ($cart as $key => $value) {
     $total = $total + ($cartr['price']*$value['quantity']);
 }
 ?>
-
 <!-- SHOP CONTENT -->
 <section id="content">
     <div class="content-blog">
@@ -524,6 +524,7 @@ foreach ($cart as $key => $value) {
                             <td><span class="amount"><?php echo getenv('STORE_CURRENCY') . $total; ?></span></td>
                         </tr>
                         <tr>
+                            <?php // TODO: Need to make the shipping dynamic by adding shipping options as a configurable option. ?>
                             <th>Shipping and Handling</th>
                             <td>
                                 Free Shipping
