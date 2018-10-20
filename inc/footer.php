@@ -84,6 +84,7 @@
                 </div>
             </footer>
             <!-- FOOTER -->
+            <div id="map-pop"></div>
         </div>
 
         <!-- Javascript -->
@@ -109,8 +110,7 @@
         <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/jquery.prettyphoto.js"></script>
         <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/script.js"></script>
         <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/booking.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo getenv('GOOGLE_MAPS_API_KEY', null); ?>&v=quarterly&callback=initMap" type="text/javascript"></script>
         <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/gmap.js"></script>
-        <script src="<?php echo getenv('STORE_URL'); ?>/assets/js/gmap2.js"></script>
     </body>
 </html>

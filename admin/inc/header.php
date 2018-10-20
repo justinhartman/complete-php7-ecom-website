@@ -53,7 +53,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3 col-xs-5 logo">
-                            <a href="http://localhost/ecomphp/admin"><img src="https://via.placeholder.com/276x100" class="img-responsive" alt=""/></a>
+                            <a href="http://localhost/ecomphp/admin"><img src="<?php echo getenv('STORE_URL'); ?>/assets/images/logo.png" class="img-responsive" alt=""/></a>
                         </div>
                         <div class="col-md-9 col-xs-7">
                             <div class="top-bar">

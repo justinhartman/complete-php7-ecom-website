@@ -49,7 +49,6 @@ include INC . 'nav.php';
 $uid = $_SESSION['customerid'];
 $cart = $_SESSION['cart'];
 ?>
-
 <!-- SHOP CONTENT -->
 <section id="content">
     <div class="content-blog content-account">
