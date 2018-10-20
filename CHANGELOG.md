@@ -3,6 +3,26 @@
 Below is a detailed change-log, along with specific tasks completed, for each
 version released to date.
 
+
+## Version 0.3.1 (20/10/2018)
+
+- [#new](#new)
+  - Added new ADMIN_INC, updated Admin index and login pages.
+  - Added full country selector to edit-address.php. Cleaned up other pages.
+- [#enhancement](#enhancement)
+  - Enclosed SQL queries and updated links.
+  - Implemented more reliable method for cart totals.
+  - Removed the <em> when zero items in cart.
+  - Checkout page has been totally over-hauled. It wasn't dynamic and hard-coded
+    plus there was no check for if there were actually items to check out.
+- [#bugfix](#bugfix)
+  - Fixed bug where users could view orders that they didn't place.
+  - Fixed up queries and variables in my-account.
+  - Removed the echo on the cart page.
+  - Fixed multiple errors on cart.php.
+  - Fixed issue where nav cart total was doubling the total on cart.php.
+  - Fixed errors when the `$_SESSION['cart']` data is null.
+
 ## Version 0.3.0 (19/10/2018)
 
 - [#new](#new)
