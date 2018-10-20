@@ -1,3 +1,15 @@
+                    <?php
+                    // Check to see if the cart is in the session data else default to null.
+                    // We do this because the $cart and $count variables are used extensively
+                    // below and will output warnings if we don't.
+                    if (isset($_SESSION['cart'])) {
+                        $cart = $_SESSION['cart'];
+                        $count = count($cart);
+                    } else {
+                        $cart = '';
+                        $count = 0;
+                    }
+                    ?>
                     <div class="menu-wrap">
                         <div id="mobnav-btn">Menu <i class="fa fa-bars"></i></div>
                         <ul class="sf-menu">
@@ -32,10 +44,6 @@
                             </li>
                         </ul>
                         <div class="header-xtra">
-                            <?php
-                                $cart = $_SESSION['cart'];
-                                $count = count($cart);
-                            ?>
                             <div class="s-cart">
                                 <div class="sc-ico"><i class="fa fa-shopping-cart"></i><?php
                                 if ($count !== 0) {
@@ -44,7 +52,7 @@
                                 <div class="cart-info">
                                     <small><?php
                                     if ($count !== 0 && $count !== 1) {
-                                        echo 'You have <em class="highlight"> ' . count($cart) . ' items</em> in your shopping cart.';
+                                        echo 'You have <em class="highlight"> ' . $count . ' items</em> in your shopping cart.';
                                     } else if ($count === 1) {
                                         echo 'You have <em class="highlight"> 1 item</em> in your shopping cart.';
                                     } else {
@@ -54,7 +62,6 @@
                                     <br>
                                     <br>
                                     <?php
-                                    $count = count($_SESSION['cart']);
                                     if ($count !== 0) {
                                         foreach ($cart as $key => $value) {
                                             $navcartsql = "SELECT * FROM `products` WHERE `id`=$key";
@@ -77,7 +84,7 @@
                                         } ?>
                                     <div class="ci-total">Subtotal: <?php echo getenv('STORE_CURRENCY') . $cartTotal; ?></div>
                                     <div class="cart-btn">
-                                        <a href="<?php echo getenv('STORE_URL'); ?>/cart.php">View Bag</a>
+                                        <a href="<?php echo getenv('STORE_URL'); ?>/cart.php">View Cart</a>
                                         <a href="<?php echo getenv('STORE_URL'); ?>/checkout.php">Checkout</a>
                                     </div>
                                     <?php
