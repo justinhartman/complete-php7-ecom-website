@@ -35,7 +35,11 @@
                                 <ul>
                                     <li><a href="<?php echo getenv('STORE_URL'); ?>/my-account.php">My Orders</a></li>
                                     <li><a href="<?php echo getenv('STORE_URL'); ?>/edit-address.php">Update Address</a></li>
+                                <?php if (!isset($_SESSION['customer']) & empty($_SESSION['customer'])) : ?>
+                                    <li><a href="<?php echo getenv('STORE_URL'); ?>/login.php">Sign In</a></li>
+                                <?php else : ?>
                                     <li><a href="<?php echo getenv('STORE_URL'); ?>/logout.php">Logout</a></li>
+                                <?php endif; ?>
                                 </ul>
                             </li>
                             <li>
