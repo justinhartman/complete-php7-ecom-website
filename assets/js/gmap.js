@@ -1,10 +1,7 @@
-   	// GOOGLEMAP
-   	// google.maps.event.addDomListener(window, 'load', init);
-
    	function initMap() {
-   	  var latLong = new google.maps.LatLng(-33.918861, 18.423300);
+   	  var latLong = new google.maps.LatLng(-33.98056, 18.46528);
    	  var mapOptions = {
-   	    zoom: 11,
+   	    zoom: 13,
    	    center: latLong,
    	    styles: [{
    	      "featureType": "landscape",
