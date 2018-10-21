@@ -37,6 +37,7 @@
     </head>
     <body class="multi-page">
         <div id="wrapper" class="wrapper">
+            <div class="container-white col-sm-10 col-sm-offset-1">
             <!-- HEADER -->
             <header id="header2">
                 <div class="container">

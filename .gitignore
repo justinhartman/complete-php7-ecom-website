@@ -19,6 +19,7 @@
 /vendor/
 /config/.env
 /config/env.php
+password-cost.php
 
 ######################
 ### macOS Specific ###

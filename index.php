@@ -50,19 +50,30 @@ include INC . 'nav.php';
                     <p>Browse our collection of Products to find just what you are looking for.</p>
                 </div>
                 <div class="col-md-12">
-                    <div class="row">
-                        <div id="shop-mason" class="shop-mason-4col">
+                        <div id="shop-mason" class="shop-mason-3col">
+                            <div class="row">
                             <?php
+                            // Get a list of all the products; either for the home page or the
+                            // individual category pages.
                             $sql = "SELECT * FROM `products`";
                             if (isset($_GET['id']) & !empty($_GET['id'])) {
-                                $id = $_GET['id'];
+                                $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
                                 $sql .= " WHERE `catid`=$id";
                             }
-
+                            // Setup the data for the loop.
                             $res = mysqli_query($connection, $sql);
-                            while ($r = mysqli_fetch_assoc($res)) {
+                            $product = mysqli_fetch_assoc($res);
+                            // Run through all the products and display the items.
+                            foreach ($res as $r):
+                                // This checks for every third product item in the list and
+                                // outputs a clearfix component to ensure our layout renders
+                                // as expected and ensures the products all line up correctly.
+                                $count++;
+                                if ($count % 4 == 0) {
+                                    echo '<div class="clearfix space35"></div>';
+                                }
                             ?>
-                                <div class="sm-item isotope-item">
+                                <div class="shop-item">
                                     <div class="product">
                                         <div class="product-thumb">
                                             <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $r['thumb']; ?>" class="img-responsive" width="250px" alt="">
@@ -73,6 +84,7 @@ include INC . 'nav.php';
                                                 </span>
                                             </div>
                                         </div>
+                                        <?php // TODO: Need to add functionality so people can rate items.  ?>
                                         <div class="rating">
                                             <span class="fa fa-star act"></span>
                                             <span class="fa fa-star act"></span>
@@ -84,12 +96,13 @@ include INC . 'nav.php';
                                         <div class="product-price"><?php echo getenv('STORE_CURRENCY') . $r['price']; ?><span></span></div>
                                     </div>
                                 </div>
-                                <?php
-                            } ?>
+                            <?php
+                            endforeach; ?>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     <!-- Pagination -->
+                    <?php // TODO: Pagination doesn't work. Need to build in the functionality. ?>
                     <div class="page_nav">
                         <a href=""><i class="fa fa-angle-left"></i></a>
                         <a href="" class="active">1</a>
