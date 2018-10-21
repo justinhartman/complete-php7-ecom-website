@@ -39,7 +39,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">Contact</a>
+                                <a href="<?php echo getenv('STORE_URL'); ?>/contact.php">Contact</a>
                             </li>
                         </ul>
                         <div class="header-xtra">
