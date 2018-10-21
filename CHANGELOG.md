@@ -32,7 +32,7 @@ version released to date.
 - [#enhancement](#enhancement)
   - Enclosed SQL queries and updated links.
   - Implemented more reliable method for cart totals.
-  - Removed the <em> when zero items in cart.
+  - Removed the `<em>` when zero items in cart.
   - Checkout page has been totally over-hauled. It wasn't dynamic and hard-coded
     plus there was no check for if there were actually items to check out.
 - [#bugfix](#bugfix)
