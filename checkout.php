@@ -161,14 +161,20 @@ $res = mysqli_query($connection, $sql);
 $r = mysqli_fetch_assoc($res);
 
 /**
- * We need to get the total value of the cart in order to update the order
- * totals. We have to run the following loop to get a $total variable.
+ * We first need to check that $cart is actually set. This would be null if
+ * the user is logged out with nothing in their cart.
  */
-foreach ($cart as $key => $value) {
-    $cartsql = "SELECT * FROM `products` WHERE `id`=$key";
-    $cartres = mysqli_query($connection, $cartsql);
-    $cartr = mysqli_fetch_assoc($cartres);
-    $total = $total + ($cartr['price']*$value['quantity']);
+if (isset($cart)){
+    /**
+     * We need to get the total value of the cart in order to update the order
+     * totals. We have to run the following loop to get a $total variable.
+     */
+    foreach ($cart as $key => $value) {
+        $cartsql = "SELECT * FROM `products` WHERE `id`=$key";
+        $cartres = mysqli_query($connection, $cartsql);
+        $cartr = mysqli_fetch_assoc($cartres);
+        $total = $total + ($cartr['price']*$value['quantity']);
+    }
 }
 ?>
 <!-- SHOP CONTENT -->
