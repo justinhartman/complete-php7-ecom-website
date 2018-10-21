@@ -35,9 +35,7 @@ if (!isset($_SESSION['customer']) & empty($_SESSION['customer'])) {
     header('location: login.php');
 }
 
-/**
- * Flush the object cache.
- */
+// Flush the output buffering cache.
 ob_flush();
 
 /**
@@ -49,28 +47,55 @@ include INC . 'nav.php';
 $uid = $_SESSION['customerid'];
 $cart = $_SESSION['cart'];
 
+/**
+ * Get the user data from the Database to pre-populate the form.
+ */
+$sql = "SELECT * FROM `usersmeta` WHERE `uid`=$uid";
+$res = $connection->query($sql);
+$count = $res->num_rows;
+$r = $res->fetch_assoc();
+
+/**
+ * Add or Update the Address details in the Database.
+ */
 if (isset($_POST) & !empty($_POST)) {
     $country = filter_var($_POST['country'], FILTER_SANITIZE_STRING);
-    $fname = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
-    $lname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
+    $firstName = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
+    $surname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
     $company = filter_var($_POST['company'], FILTER_SANITIZE_STRING);
     $address1 = filter_var($_POST['address1'], FILTER_SANITIZE_STRING);
     $address2 = filter_var($_POST['address2'], FILTER_SANITIZE_STRING);
     $city = filter_var($_POST['city'], FILTER_SANITIZE_STRING);
     $state = filter_var($_POST['state'], FILTER_SANITIZE_STRING);
     $phone = filter_var($_POST['phone'], FILTER_SANITIZE_NUMBER_INT);
+    $zip = filter_var($_POST['zipcode'], FILTER_SANITIZE_STRING);
 
-    $zip = filter_var($_POST['zipcode'], FILTER_SANITIZE_NUMBER_INT);
+    // We either use an UPDATE or INSERT statement depending on whether or not
+    // the user has added their address details before.
+    if ($count === 1) {
+        $sqlStatement = "UPDATE `usersmeta` SET `country`='$country', `firstname`='$firstName', `lastname`='$surname', `address1`='$address1', `address2`='$address2', `city`='$city', `state`='$state',  `zip`='$zip', `company`='$company', `mobile`='$phone' WHERE `uid`=$uid";
+    } elseif ($count === 0) {
+        $sqlStatement = "INSERT INTO `usersmeta` (`country`, `firstname`, `lastname`, `address1`, `address2`, `city`, `state`, `zip`, `company`, `mobile`, `uid`) VALUES ('$country', '$firstName', '$surname', '$address1', '$address2', '$city', '$state', '$zip', '$company', '$phone', '$uid')";
+    }
+    // Setup the Update query.
+    // $queryResult = mysqli_query($connection, $sqlStatement);
+    $queryResult = $connection->query($sqlStatement);
 
-    $usql = "UPDATE usersmeta SET country='$country', firstname='$fname', lastname='$lname', address1='$address1', address2='$address2', city='$city', state='$state',  zip='$zip', company='$company', mobile='$phone' WHERE uid=$uid";
-    $ures = mysqli_query($connection, $usql) or die(mysqli_error($connection));
-    if ($ures) {
+    // Check that all the required details have been completed in the form.
+    if (!empty($country) && !empty($firstName) && !empty($surname) && !empty($address1) && !empty($city) && !empty($state) && !empty($phone) && !empty($zip)) {
+        // Update or Insert the Address details by saving the data to MySQL.
+        if ($queryResult === TRUE) {
+            // Return a success message.
+            header("location: edit-address.php?message=success");
+        } else {
+            // Return a General error message.
+            header("location: edit-address.php?message=error");
+        }
+    } else {
+        // Return an error message asking them to fill in all their details.
+        header("location: edit-address.php?message=warning");
     }
 }
-
-$sql = "SELECT * FROM usersmeta WHERE uid=$uid";
-$res = mysqli_query($connection, $sql);
-$r = mysqli_fetch_assoc($res);
 ?>
 
 
@@ -83,19 +108,49 @@ $r = mysqli_fetch_assoc($res);
         </div>
         <form method="post">
             <div class="container">
+            <?php if (isset($_GET['message'])) : ?>
+                <div class="row">
+                <?php if ($_GET['message'] == 'success') : ?>
+                    <div class="col-sm-12">
+                        <h3 class="uppercase text-center">Address Updated Successfully</h3>
+                        <br>
+                        <div class="alert alert-success text-center" role="alert">
+                            <?php echo "Congratulations, we have successfully updated your Address details."; ?>
+                        </div>
+                    </div>
+                <?php elseif ($_GET['message'] == 'error') : ?>
+                    <div class="col-sm-12">
+                        <h3 class="uppercase text-center">Failed to Update your Address details</h3>
+                        <br>
+                        <div class="alert alert-danger text-center" role="alert">
+                            <?php echo "There were errors while trying to process your Address details! Please make sure that you have completed all the fields in the Address form below and try again."; ?>
+                        </div>
+                    </div>
+                <?php elseif ($_GET['message'] == 'warning') : ?>
+                    <div class="col-sm-12">
+                        <h3 class="uppercase text-center">Please fill in all your Details</h3>
+                        <br>
+                        <div class="alert alert-warning text-center" role="alert">
+                            <?php echo "You have not completed all the form fields below and we cannot update your Address. Please make sure that you have completed all the fields in the Address form below and try again."; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                </div>
+            <?php endif; ?>
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
                         <div class="billing-details">
                             <h3 class="uppercase">Update My Address</h3>
-
-                            <div class="space30"></div>
-                            <label class="">Country </label>
-                            <select name="country" class="form-control">
+                            <br>
+                            <p>Fields marked in <i style="color:tomato;">*</i> are required fields and you need to complete them before updating your address.</p>
+                            <br>
+                            <label class="">Country <i style="color:tomato;">*</i></label>
+                            <select name="country" class="form-control" required>
                                 <?php
                                 if (!empty($r['country'])) {
                                     echo '<option value="'.$r['country'].'">'.$r['country'].'</option>';
                                 } else {
-                                    echo '<option value="">Select Country</option>';
+                                    echo '<option value="">Select Country</option>'. "\n";
                                 } ?>
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Åland Islands">Åland Islands</option>
@@ -345,20 +400,20 @@ $r = mysqli_fetch_assoc($res);
                             <div class="clearfix space20"></div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>First Name</label>
+                                    <label>First Name <i style="color:tomato;">*</i></label>
                                     <input name="fname" class="form-control" placeholder="" value="<?php if (!empty($r['firstname'])) {
                                         echo $r['firstname'];
-                                    } elseif (isset($fname)) {
-                                        echo $fname;
-                                    } ?>" type="text">
+                                    } elseif (isset($firstName)) {
+                                        echo $firstName;
+                                    } ?>" type="text" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label>Last Name</label>
+                                    <label>Last Name <i style="color:tomato;">*</i></label>
                                     <input name="lname" class="form-control" placeholder="" value="<?php if (!empty($r['lastname'])) {
                                         echo $r['lastname'];
-                                    } elseif (isset($lname)) {
-                                        echo $lname;
-                                    } ?>" type="text">
+                                    } elseif (isset($surname)) {
+                                        echo $surname;
+                                    } ?>" type="text" required>
                                 </div>
                             </div>
                             <div class="clearfix space20"></div>
@@ -369,12 +424,12 @@ $r = mysqli_fetch_assoc($res);
                                 echo $company;
                             } ?>" type="text">
                             <div class="clearfix space20"></div>
-                            <label>Address</label>
+                            <label>Address <i style="color:tomato;">*</i></label>
                             <input name="address1" class="form-control" placeholder="Street address" value="<?php if (!empty($r['address1'])) {
                                 echo $r['address1'];
                             } elseif (isset($address1)) {
                                 echo $address1;
-                            } ?>" type="text">
+                            } ?>" type="text" required>
                             <div class="clearfix space20"></div>
                             <input name="address2" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" value="<?php if (!empty($r['address2'])) {
                                 echo $r['address2'];
@@ -384,37 +439,37 @@ $r = mysqli_fetch_assoc($res);
                             <div class="clearfix space20"></div>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label>City </label>
+                                    <label>City <i style="color:tomato;">*</i></label>
                                     <input name="city" class="form-control" placeholder="City" value="<?php if (!empty($r['city'])) {
                                         echo $r['city'];
                                     } elseif (isset($city)) {
                                         echo $city;
-                                    } ?>" type="text">
+                                    } ?>" type="text" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label>State</label>
+                                    <label>State <i style="color:tomato;">*</i></label>
                                     <input name="state" class="form-control" value="<?php if (!empty($r['state'])) {
                                         echo $r['state'];
                                     } elseif (isset($state)) {
                                         echo $state;
-                                    } ?>" placeholder="State" type="text">
+                                    } ?>" placeholder="State" type="text" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label>Postcode</label>
+                                    <label>Postcode <i style="color:tomato;">*</i></label>
                                     <input name="zipcode" class="form-control" placeholder="Postcode / Zip" value="<?php if (!empty($r['zip'])) {
                                         echo $r['zip'];
                                     } elseif (isset($zip)) {
                                         echo $zip;
-                                    } ?>" type="text">
+                                    } ?>" type="text" required>
                                 </div>
                             </div>
                             <div class="clearfix space20"></div>
-                            <label>Phone</label>
+                            <label>Phone <i style="color:tomato;">*</i></label>
                             <input name="phone" class="form-control" id="billing_phone" placeholder="" value="<?php if (!empty($r['mobile'])) {
                                 echo $r['mobile'];
                             } elseif (isset($phone)) {
                                 echo $phone;
-                            } ?>" type="text">
+                            } ?>" type="text" required>
                             <div class="space30"></div>
                             <input type="submit" class="button btn-md" value="Update Address">
                         </div>
