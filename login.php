@@ -52,7 +52,10 @@ include INC . 'nav.php';
                                 <div class="clearfix space40"></div>
                                 <?php if (isset($_GET['message'])) {
                                     if ($_GET['message'] == 1) {
-                                        ?><div class="alert alert-danger" role="alert"> <?php echo "Invalid Login Credentials"; ?> </div>
+                                        ?><div class="alert alert-danger" role="alert"><?php echo "Sorry, we could not log you in with that email and password combination. Please try again."; ?> </div>
+                                        <?php
+                                    } else if ($_GET['message'] == 3) {
+                                        ?><div class="alert alert-danger" role="alert"><?php echo "That email address is not registered on our system. Please try again with another email address."; ?></div>
                                         <?php
                                     }
                                 } ?>
