@@ -3,6 +3,19 @@
 Below is a detailed change-log, along with specific tasks completed, for each
 version released to date.
 
+## Version 0.4.0 (21/10/2018)
+
+- [#new](#new)
+  - Added new Contact page.
+- [#enhancement](#enhancement)
+  - Hiding the Google Map from the browser until we have a working Contact Page.
+  - Removed Google Map Scripts from Footer and Migrated to Contact Page.
+- [#bugfix](#bugfix)
+  - Fixed Uncaught TypeError getAttribute error.
+  - Fixed 15 JavaScript & 404 errors appearing in Developer Tools Console.
+  - Replaced Google Maps with working API Key and error free JavaScript.
+  - Fixed all remaining Dev Tools Console Bugs - no errors anymore.
+
 ## Version 0.3.2 (20/10/2018)
 
 - [#new](#new)
