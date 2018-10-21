@@ -76,10 +76,18 @@ include INC . 'nav.php';
                 </div>
                 <div class="col-md-10 col-md-offset-1">
                     <?php if (isset($fmsg)) {
-                        ?><div class="alert alert-danger" role="alert"> <?php echo $fmsg; ?> </div><?php
+                        ?>
+                    <div class="row">
+                        <div class="alert alert-danger" role="alert"><?php echo $fmsg; ?></div>
+                    </div>
+                    <?php
                     } ?>
                     <?php if (isset($smsg)) {
-                        ?><div class="alert alert-success" role="alert"> <?php echo $smsg; ?> </div><?php
+                        ?>
+                    <div class="row">
+                        <div class="alert alert-success" role="alert"><?php echo $smsg; ?></div>
+                    </div>
+                    <?php
                     } ?>
                     <div class="row">
                         <div class="col-md-5">
@@ -104,17 +112,17 @@ include INC . 'nav.php';
                             <div class="space10"></div>
                             <div class="p-price"><?php echo getenv('STORE_CURRENCY') . $prodr['price']; ?></div>
                             <p><?php echo $prodr['description']; ?></p>
-                            <form method="get" action="addtocart.php">
+                            <form method="get" action="<?php echo getenv('STORE_URL'); ?>/addtocart.php">
                                 <div class="product-quantity">
                                     <span>Quantity:</span>
                                     <input type="hidden" name="id" value="<?php echo $prodr['id']; ?>">
                                     <input type="text" name="quant" placeholder="1">
                                 </div>
                                 <div class="shop-btn-wrap">
-                                    <input type="submit" class="button btn-small" value="Add to Cart">
+                                    <input type="submit" class="button btn-small space20" value="Add to Cart">
                                 </div>
                             </form>
-                            <a href="<?php echo getenv('STORE_URL'); ?>/addtowishlist.php?id=<?php echo $prodr['id']; ?>">Add to WishList</a>
+                            <a href="<?php echo getenv('STORE_URL'); ?>/addtowishlist.php?id=<?php echo $prodr['id']; ?>" class="button btn-small">Add to Wishlist</a>
                             <div class="product-meta">
                                 <span>Categories:
                                     <?php
@@ -122,7 +130,7 @@ include INC . 'nav.php';
                                     $prodcatres = mysqli_query($connection, $prodcatsql);
                                     $prodcatr = mysqli_fetch_assoc($prodcatres);
                                     ?>
-                                    <a href="#"><?php echo $prodcatr['name']; ?></a>
+                                    <a href="<?php echo getenv('STORE_URL'); ?>/index.php?id=<?php echo $prodcatr['id']; ?>"><?php echo $prodcatr['name']; ?></a>
                                 </span><br>
                             </div>
                         </div>
@@ -173,7 +181,7 @@ include INC . 'nav.php';
                                                         <em><?php echo $selrevr['timestamp']; ?></em>
                                                     </span>
                                                 </div>
-                                                <!--	<div class="rating2">
+                                                <!-- <div class="rating2">
                                                     <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
                                                 </div> -->
                                                 <p>
@@ -184,7 +192,7 @@ include INC . 'nav.php';
                                         } ?>
                                     </ul>
                                     <?php
-                                    $chkrevsql = "SELECT count(*) `reviewcount` FROM `reviews` `r` WHERE r.uid=$uid";
+                                    $chkrevsql = "SELECT count(*) `reviewcount` FROM `reviews` `r` WHERE r.uid='$uid' AND r.pid='$id'";
                                     $chkrevres = mysqli_query($connection, $chkrevsql);
                                     $chkrevr = mysqli_fetch_assoc($chkrevres);
                                     if ($chkrevr['reviewcount'] >= 1) {
