@@ -54,6 +54,11 @@ if (file_exists(CONFIG . '.env')) {
 session_start();
 
 /**
+ * Setup Debugging. Set to false if not defined in .env.
+ */
+$debug = getenv('ERROR_DEBUG', false);
+
+/**
  * Load the Database Connection.
  */
 require_once CONFIG . 'connect.php';

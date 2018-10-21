@@ -32,9 +32,9 @@ $dbPassword = getenv("DB_PASSWORD");
 $database   = getenv("DB_DATABASE");
 
 $connection = mysqli_connect($dbHost, $dbUsername, $dbPassword, $database);
-if (!$connection) {
-    echo "Error: Unable to connect to MySQL." . PHP_EOL;
-    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
-    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+if (!$connection && $debug == true) {
+    echo "Error: Unable to connect to MySQL.<br>" . PHP_EOL;
+    echo "Debug Error Number: " . mysqli_connect_errno() . "<br>" . PHP_EOL;
+    echo "Debug Error: " . mysqli_connect_error() . "<br>" . PHP_EOL;
     exit;
 }
