@@ -31,10 +31,13 @@ $dbUsername = getenv("DB_USERNAME");
 $dbPassword = getenv("DB_PASSWORD");
 $database   = getenv("DB_DATABASE");
 
-$connection = mysqli_connect($dbHost, $dbUsername, $dbPassword, $database);
-if (!$connection && $debug == true) {
+$connection = new mysqli($dbHost, $dbUsername, $dbPassword, $database);
+
+if ($connection->connect_error && $debug == true) {
     echo "Error: Unable to connect to MySQL.<br>" . PHP_EOL;
     echo "Debug Error Number: " . mysqli_connect_errno() . "<br>" . PHP_EOL;
     echo "Debug Error: " . mysqli_connect_error() . "<br>" . PHP_EOL;
     exit;
+} elseif ($connection->connect_error) {
+    echo "Error: Unable to connect to the Database Server.<br>" . PHP_EOL;
 }
