@@ -51,6 +51,11 @@ define('VENDOR', ROOT . DS . 'vendor' . DS);
 define('INC', ROOT . DS . 'inc' . DS);
 
 /**
+ * Path to the classes include directory.
+ */
+define('CLASSES', INC . 'classes' . DS);
+
+/**
  * Path to the components include directory.
  */
 define('COMPONENTS', INC . 'components' . DS);
