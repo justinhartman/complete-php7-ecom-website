@@ -34,6 +34,7 @@
                                 <div class="mobnav-subarrow"><i class="fa fa-plus"></i></div>
                                 <ul>
                                     <li><a href="<?php echo getenv('STORE_URL'); ?>/my-account.php">My Orders</a></li>
+                                    <li><a href="<?php echo getenv('STORE_URL'); ?>/wishlist.php">My Wishlist</a></li>
                                     <li><a href="<?php echo getenv('STORE_URL'); ?>/edit-address.php">Update Address</a></li>
                                 <?php if (!isset($_SESSION['customer']) & empty($_SESSION['customer'])) : ?>
                                     <li><a href="<?php echo getenv('STORE_URL'); ?>/login.php">Sign In</a></li>
