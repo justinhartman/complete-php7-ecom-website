@@ -44,121 +44,13 @@ include INC . 'nav.php';
 $uid = $_SESSION['customerid'];
 $cart = $_SESSION['cart'];
 
-if (isset($_POST) & !empty($_POST)) {
-    if ($_POST['agree'] == true) {
-        $country = filter_var($_POST['country'], FILTER_SANITIZE_STRING);
-        $fname = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
-        $lname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
-        $company = filter_var($_POST['company'], FILTER_SANITIZE_STRING);
-        $address1 = filter_var($_POST['address1'], FILTER_SANITIZE_STRING);
-        $address2 = filter_var($_POST['address2'], FILTER_SANITIZE_STRING);
-        $city = filter_var($_POST['city'], FILTER_SANITIZE_STRING);
-        $state = filter_var($_POST['state'], FILTER_SANITIZE_STRING);
-        $phone = filter_var($_POST['phone'], FILTER_SANITIZE_NUMBER_INT);
-        $payment = filter_var($_POST['payment'], FILTER_SANITIZE_STRING);
-        $zip = filter_var($_POST['zipcode'], FILTER_SANITIZE_NUMBER_INT);
-
-        $sql = "SELECT * FROM `usersmeta` WHERE `uid`=$uid";
-        $res = mysqli_query($connection, $sql);
-        $r = mysqli_fetch_assoc($res);
-        $count = mysqli_num_rows($res);
-        if ($count == 1) {
-            //update data in usersmeta table
-            $usql = "UPDATE `usersmeta` SET `country`='$country', `firstname`='$fname', `lastname`='$lname', `address1`='$address1', `address2`='$address2', `city`='$city', `state`='$state', `zip`='$zip', `company`='$company', `mobile`='$phone' WHERE `uid`=$uid";
-            $ures = mysqli_query($connection, $usql) or die(mysqli_error($connection));
-            if ($ures) {
-                $total = 0;
-                foreach ($cart as $key => $value) {
-                    // echo $key . " : " . $value['quantity'] ."<br>";
-                    $ordsql = "SELECT * FROM `products` WHERE `id`=$key";
-                    $ordres = mysqli_query($connection, $ordsql);
-                    $ordr = mysqli_fetch_assoc($ordres);
-
-                    $total = $total + ($ordr['price']*$value['quantity']);
-                }
-
-                echo $iosql = "INSERT INTO `orders` (`uid`, `totalprice`, `orderstatus`, `paymentmode`) VALUES ('$uid', '$total', 'Order Placed', '$payment')";
-                $iores = mysqli_query($connection, $iosql) or die(mysqli_error($connection));
-                if ($iores) {
-                    //echo "Order inserted, insert order items <br>";
-                    $orderid = mysqli_insert_id($connection);
-                    foreach ($cart as $key => $value) {
-                        //echo $key . " : " . $value['quantity'] ."<br>";
-                        $ordsql = "SELECT * FROM `products` WHERE `id`=$key";
-                        $ordres = mysqli_query($connection, $ordsql);
-                        $ordr = mysqli_fetch_assoc($ordres);
-
-                        $pid = $ordr['id'];
-                        $productprice = $ordr['price'];
-                        $quantity = $value['quantity'];
-
-
-                        $orditmsql = "INSERT INTO `orderitems` (`pid`, `orderid`, `productprice`, `pquantity`) VALUES ('$pid', '$orderid', '$productprice', '$quantity')";
-                        $orditmres = mysqli_query($connection, $orditmsql) or die(mysqli_error($connection));
-                        //if($orditmres){
-                        //echo "Order Item inserted redirect to my account page <br>";
-                        //}
-                    }
-                }
-                unset($_SESSION['cart']);
-                header("location: my-account.php");
-            }
-        } else {
-            //insert data in usersmeta table
-            $isql = "INSERT INTO `usersmeta` (`country`, `firstname`, `lastname`, `address1`, `address2`, `city`, `state`, `zip`, `company`, `mobile`, `uid`) VALUES ('$country', '$fname', '$lname', '$address1', '$address2', '$city', '$state', '$zip', '$company', '$phone', '$uid')";
-            $ires = mysqli_query($connection, $isql) or die(mysqli_error($connection));
-            if ($ires) {
-                $total = 0;
-                foreach ($cart as $key => $value) {
-                    //echo $key . " : " . $value['quantity'] ."<br>";
-                    $ordsql = "SELECT * FROM `products` WHERE `id`=$key";
-                    $ordres = mysqli_query($connection, $ordsql);
-                    $ordr = mysqli_fetch_assoc($ordres);
-
-                    $total = $total + ($ordr['price']*$value['quantity']);
-                }
-
-                echo $iosql = "INSERT INTO `orders` (`uid`, `totalprice`, `orderstatus`, `paymentmode`) VALUES ('$uid', '$total', 'Order Placed', '$payment')";
-                $iores = mysqli_query($connection, $iosql) or die(mysqli_error($connection));
-                if ($iores) {
-                    //echo "Order inserted, insert order items <br>";
-                    $orderid = mysqli_insert_id($connection);
-                    foreach ($cart as $key => $value) {
-                        //echo $key . " : " . $value['quantity'] ."<br>";
-                        $ordsql = "SELECT * FROM `products` WHERE `id`=$key";
-                        $ordres = mysqli_query($connection, $ordsql);
-                        $ordr = mysqli_fetch_assoc($ordres);
-
-                        $pid = $ordr['id'];
-                        $productprice = $ordr['price'];
-                        $quantity = $value['quantity'];
-
-
-                        $orditmsql = "INSERT INTO `orderitems` (`pid`, `orderid`, `productprice`, `pquantity`) VALUES ('$pid', '$orderid', '$productprice', '$quantity')";
-                        $orditmres = mysqli_query($connection, $orditmsql) or die(mysqli_error($connection));
-                        //if($orditmres){
-                        //echo "Order Item inserted redirect to my account page <br>";
-                        //}
-                    }
-                }
-                unset($_SESSION['cart']);
-                header("location: my-account.php");
-            }
-        }
-    }
-}
-
 /**
- * Flush the object cache.
+ * Get the user data from the Database to pre-populate the form.
  */
-ob_flush();
-
-/**
- * Get users meta-data so we can populate the delivery address.
- */
-$sql = "SELECT * FROM `usersmeta` WHERE `uid`=$uid";
-$res = mysqli_query($connection, $sql);
-$r = mysqli_fetch_assoc($res);
+$userSql = "SELECT * FROM `usersmeta` WHERE `uid`='$uid'";
+$userResult = $connection->query($userSql);
+$count = $userResult->num_rows;
+$r = $userResult->fetch_assoc();
 
 /**
  * We first need to check that $cart is actually set. This would be null if
@@ -167,15 +59,94 @@ $r = mysqli_fetch_assoc($res);
 if (isset($cart)){
     /**
      * We need to get the total value of the cart in order to update the order
-     * totals. We have to run the following loop to get a $total variable.
+     * totals. We have to run the following loop to get a $orderTotal variable.
      */
     foreach ($cart as $key => $value) {
-        $cartsql = "SELECT * FROM `products` WHERE `id`=$key";
-        $cartres = mysqli_query($connection, $cartsql);
-        $cartr = mysqli_fetch_assoc($cartres);
-        $total = $total + ($cartr['price']*$value['quantity']);
+        $orderSql = "SELECT * FROM `products` WHERE `id`='$key'";
+        $orderResult = $connection->query($orderSql);
+        $order = $orderResult->fetch_assoc();
+        $orderTotal = $orderTotal + ($order['price']*$value['quantity']);
     }
 }
+
+/**
+ * Add or Update the Address details in the Database and process the items in
+ * the users Cart for the Checkout page.
+ */
+if (isset($_POST) & !empty($_POST)) {
+    if ($_POST['agree'] == true) {
+        $country = filter_var($_POST['country'], FILTER_SANITIZE_STRING);
+        $firstName = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
+        $surname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
+        $company = filter_var($_POST['company'], FILTER_SANITIZE_STRING);
+        $address1 = filter_var($_POST['address1'], FILTER_SANITIZE_STRING);
+        $address2 = filter_var($_POST['address2'], FILTER_SANITIZE_STRING);
+        $city = filter_var($_POST['city'], FILTER_SANITIZE_STRING);
+        $state = filter_var($_POST['state'], FILTER_SANITIZE_STRING);
+        $phone = filter_var($_POST['phone'], FILTER_SANITIZE_NUMBER_INT);
+        $payment = filter_var($_POST['payment'], FILTER_SANITIZE_STRING);
+        $zip = filter_var($_POST['zipcode'], FILTER_SANITIZE_STRING);
+
+        // Check that all the required details have been completed in the form.
+        if (!empty($country) && !empty($firstName) && !empty($surname) && !empty($address1) && !empty($city) && !empty($state) && !empty($phone) && !empty($zip)) {
+            // We either use an UPDATE or INSERT statement depending on whether
+            // or not the user has added their address details before.
+            if ($count === 1) {
+                $addressSql = "UPDATE `usersmeta` SET `country`='$country', `firstname`='$firstName', `lastname`='$surname', `address1`='$address1', `address2`='$address2', `city`='$city', `state`='$state',  `zip`='$zip', `company`='$company', `mobile`='$phone' WHERE `uid`=$uid";
+            } elseif ($count === 0) {
+                $addressSql = "INSERT INTO `usersmeta` (`country`, `firstname`, `lastname`, `address1`, `address2`, `city`, `state`, `zip`, `company`, `mobile`, `uid`) VALUES ('$country', '$firstName', '$surname', '$address1', '$address2', '$city', '$state', '$zip', '$company', '$phone', '$uid')";
+            }
+            // Setup the Update or Insert query for the usermeta table.
+            $addressResult = $connection->query($addressSql);
+
+            // Update or Insert the Address details by saving the data to the
+            // usermeta table.
+            if ($addressResult === TRUE) {
+                // Setup the query for inserting the order to the orders table.
+                $orderInsert = "INSERT INTO `orders` (`uid`, `totalprice`, `orderstatus`, `paymentmode`) VALUES ('$uid', '$orderTotal', 'Order Placed', '$payment')";
+                $insertResult = $connection->query($orderInsert);
+
+                // Insert the Order to the orders table.
+                if ($insertResult === TRUE) {
+                    // Get the order id from the last insert to the orders table.
+                    $orderId = $connection->insert_id;
+                    // Run a loop to get all the products that were added to the
+                    // users cart.
+                    foreach ($cart as $key => $value) {
+                        $itemSql = "SELECT * FROM `products` WHERE `id`='$key'";
+                        $itemResult = $connection->query($itemSql);
+                        $item = $itemResult->fetch_assoc();
+                        // $itemCount = $itemResult->data_seek(0);
+
+                        // Get the product id, price and quantity.
+                        $productId = $item['id'];
+                        $productPrice = $item['price'];
+                        $productQuant = $value['quantity'];
+
+                        // Prepare Insert statement for the orderitems table.
+                        $orderItemSql = "INSERT INTO `orderitems` (`pid`, `orderid`, `productprice`, `pquantity`) VALUES ('$productId', '$orderId', '$productPrice', '$productQuant')";
+                        $orderItemsResult = $connection->query($orderItemSql);
+                        // Insert the products to the orderitems tables.
+                        if ($orderItemsResult === FALSE) {
+                            echo "There was an error updating your order. Please contact support.";
+                        }
+                    }
+                    // If our queries ran successfully then we redirect the user
+                    // to the recently placed order page.
+                    if ($orderItemsResult === TRUE) {
+                        unset($_SESSION['cart']);
+                        header("location: view-order.php?id=$orderId");
+                    }
+                } // end $insertResult which also inserts order items.
+            } // end $addressResult which also inserts the main order.
+        } // End of Checking Post Variables.
+    } // End the check if the T&C's were agreed to.
+} // End the check to see if we are dealing with POST data only.
+
+/**
+ * Flush the object cache.
+ */
+ob_flush();
 ?>
 <!-- SHOP CONTENT -->
 <section id="content">
@@ -191,9 +162,11 @@ if (isset($cart)){
                     <div class="col-md-6 col-md-offset-3">
                         <div class="billing-details">
                             <h3 class="uppercase">Shipping Details</h3>
-                            <div class="space30"></div>
-                            <label class="">Country</label>
-                            <select name="country" class="form-control" readonly>
+                            <br>
+                            <p>Fields marked in <i style="color:tomato;">*</i> are required fields and you need to complete them before updating your address.</p>
+                            <br>
+                            <label class="">Country <i style="color:tomato;">*</i></label>
+                            <select name="country" class="form-control" required>
                             <?php
                             if (!empty($r['country'])) {
                                 echo '<option value="'.$r['country'].'" style="form-control-plaintext">'.$r['country'].'</option>';
@@ -450,20 +423,20 @@ if (isset($cart)){
                             <div class="clearfix space20"></div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>First Name </label>
+                                    <label>First Name <i style="color:tomato;">*</i></label>
                                     <input name="fname" class="form-control" placeholder="" value="<?php if (!empty($r['firstname'])) {
                                         echo $r['firstname'];
-                                    } elseif (isset($fname)) {
-                                        echo $fname;
-                                    } ?>" type="text">
+                                    } elseif (isset($firstName)) {
+                                        echo $firstName;
+                                    } ?>" type="text" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label>Last Name </label>
+                                    <label>Last Name <i style="color:tomato;">*</i></label>
                                     <input name="lname" class="form-control" placeholder="" value="<?php if (!empty($r['lastname'])) {
                                         echo $r['lastname'];
-                                    } elseif (isset($lname)) {
-                                        echo $lname;
-                                    } ?>" type="text">
+                                    } elseif (isset($surname)) {
+                                        echo $surname;
+                                    } ?>" type="text" required>
                                 </div>
                             </div>
                             <div class="clearfix space20"></div>
@@ -474,12 +447,12 @@ if (isset($cart)){
                                 echo $company;
                             } ?>" type="text">
                             <div class="clearfix space20"></div>
-                            <label>Address </label>
+                            <label>Address <i style="color:tomato;">*</i></label>
                             <input name="address1" class="form-control" placeholder="Street address" value="<?php if (!empty($r['address1'])) {
                                 echo $r['address1'];
                             } elseif (isset($address1)) {
                                 echo $address1;
-                            } ?>" type="text">
+                            } ?>" type="text" required>
                             <div class="clearfix space20"></div>
                             <input name="address2" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" value="<?php if (!empty($r['address2'])) {
                                 echo $r['address2'];
@@ -489,37 +462,37 @@ if (isset($cart)){
                             <div class="clearfix space20"></div>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label>City </label>
+                                    <label>City <i style="color:tomato;">*</i></label>
                                     <input name="city" class="form-control" placeholder="City" value="<?php if (!empty($r['city'])) {
                                         echo $r['city'];
                                     } elseif (isset($city)) {
                                         echo $city;
-                                    } ?>" type="text">
+                                    } ?>" type="text" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label>State</label>
+                                    <label>State <i style="color:tomato;">*</i></label>
                                     <input name="state" class="form-control" value="<?php if (!empty($r['state'])) {
                                         echo $r['state'];
                                     } elseif (isset($state)) {
                                         echo $state;
-                                    } ?>" placeholder="State" type="text">
+                                    } ?>" placeholder="State" type="text" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label>Postcode </label>
+                                    <label>Postcode <i style="color:tomato;">*</i></label>
                                     <input name="zipcode" class="form-control" placeholder="Postcode / Zip" value="<?php if (!empty($r['zip'])) {
                                         echo $r['zip'];
                                     } elseif (isset($zip)) {
                                         echo $zip;
-                                    } ?>" type="text">
+                                    } ?>" type="text" required>
                                 </div>
                             </div>
                             <div class="clearfix space20"></div>
-                            <label>Phone </label>
+                            <label>Phone <i style="color:tomato;">*</i></label>
                             <input name="phone" class="form-control" id="billing_phone" placeholder="" value="<?php if (!empty($r['mobile'])) {
                                 echo $r['mobile'];
                             } elseif (isset($phone)) {
                                 echo $phone;
-                            } ?>" type="text">
+                            } ?>" type="text" required>
 
                         </div>
                     </div>
@@ -532,7 +505,7 @@ if (isset($cart)){
                     <tbody>
                         <tr>
                             <th>Cart Subtotal</th>
-                            <td><span class="amount"><?php echo getenv('STORE_CURRENCY') . $total; ?></span></td>
+                            <td><span class="amount"><?php echo getenv('STORE_CURRENCY') . $orderTotal; ?></span></td>
                         </tr>
                         <tr>
                             <?php // TODO: Need to make the shipping dynamic by adding shipping options as a configurable option. ?>
@@ -543,7 +516,7 @@ if (isset($cart)){
                         </tr>
                         <tr>
                             <th>Order Total</th>
-                            <td><strong><span class="amount"><?php echo getenv('STORE_CURRENCY') . $total; ?></span></strong> </td>
+                            <td><strong><span class="amount"><?php echo getenv('STORE_CURRENCY') . $orderTotal; ?></span></strong> </td>
                         </tr>
                     </tbody>
                 </table>
