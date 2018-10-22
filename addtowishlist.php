@@ -39,7 +39,7 @@ if (!isset($_SESSION['customer']) & empty($_SESSION['customer'])) {
 
 if (isset($_GET['id']) & !empty($_GET['id'])) {
     $pid = $_GET['id'];
-    echo $sql = "INSERT INTO wishlist (pid, uid) VALUES ($pid, $uid)";
+    echo $sql = "INSERT INTO `wishlist` (`pid`, `uid`) VALUES ('$pid', '$uid')";
     $res = mysqli_query($connection, $sql);
     if ($res) {
         header('location: wishlist.php');
@@ -48,7 +48,5 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
     header('location: wishlist.php');
 }
 
-/**
- * Flush the object cache.
- */
+// Flush the output buffering cache.
 ob_flush();

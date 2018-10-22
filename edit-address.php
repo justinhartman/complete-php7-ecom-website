@@ -50,7 +50,7 @@ $cart = $_SESSION['cart'];
 /**
  * Get the user data from the Database to pre-populate the form.
  */
-$sql = "SELECT * FROM `usersmeta` WHERE `uid`=$uid";
+$sql = "SELECT * FROM `usersmeta` WHERE `uid`='$uid'";
 $res = $connection->query($sql);
 $count = $res->num_rows;
 $r = $res->fetch_assoc();
@@ -77,8 +77,7 @@ if (isset($_POST) & !empty($_POST)) {
     } elseif ($count === 0) {
         $sqlStatement = "INSERT INTO `usersmeta` (`country`, `firstname`, `lastname`, `address1`, `address2`, `city`, `state`, `zip`, `company`, `mobile`, `uid`) VALUES ('$country', '$firstName', '$surname', '$address1', '$address2', '$city', '$state', '$zip', '$company', '$phone', '$uid')";
     }
-    // Setup the Update query.
-    // $queryResult = mysqli_query($connection, $sqlStatement);
+    // Setup the Update or Insert query.
     $queryResult = $connection->query($sqlStatement);
 
     // Check that all the required details have been completed in the form.
