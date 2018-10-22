@@ -100,7 +100,7 @@ include INC . 'nav.php';
                                 <div class="clearfix space40"></div>
                                 <?php if (isset($_GET['message'])) {
                                     if ($_GET['message'] == 2) {
-                                        ?><div class="alert alert-danger" role="alert"> <?php echo "Failed to Register"; ?> </div>
+                                        ?><div class="alert alert-danger" role="alert"><?php echo "Something went wrong while trying to create your account. Are you sure that you haven't already registered before with your email address?"; ?></div>
                                         <?php
                                     }
                                 } ?>

@@ -28,38 +28,32 @@
  */
 require __DIR__ . '/config/bootstrap.php';
 
-function PasswordHash($pass)
-{
-    // $pass = $userPass;
-    $phpVersion = phpversion();
-    if ($phpVersion >= '7.3.0') {
-        // This is the Argon2 method which only works on PHP 7.2.* upwards as it was
-        // only introduced in 7.2.0.
-        $password = password_hash($pass, PASSWORD_ARGON2I);
-        return $password;
-    } else {
-        // Set the options with the cost param.
-        $options = [
-            'cost' => '12',
-        ];
-        $password = password_hash($pass, PASSWORD_BCRYPT, $options);
-        return $password;
-    }
-}
+/**
+ * Load the security component to hash the password.
+ */
+include_once COMPONENTS . 'security.php';
 
 if (isset($_POST) & !empty($_POST)) {
     // Sanitise the input methods for XSS Attacks.
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $userPass = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+
     // Set the password using a hash.
     $hashPass = PasswordHash($userPass);
 
-    // Store the email and password in the DB.
+    // Setup the query to store the email and password in the users table.
     $sql = "INSERT INTO `users` (`email`, `password`) VALUES ('$email', '$hashPass')";
-    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-    if ($result) {
+    $result = $connection->query($sql);
+
+    // Check connection
+    if ($connection->connect_error && $debug == true) {
+        die("Connection failed: " . $connection->connect_error);
+    }
+
+    // Insert the user data into the users table.
+    if ($result === TRUE) {
         $_SESSION['customer'] = $email;
-        $_SESSION['customerid'] = mysqli_insert_id($connection);
+        $_SESSION['customerid'] = $connection->insert_id;
         header("location: my-account.php");
     } else {
         header("location: login.php?message=2");

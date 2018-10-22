@@ -51,6 +51,11 @@ define('VENDOR', ROOT . DS . 'vendor' . DS);
 define('INC', ROOT . DS . 'inc' . DS);
 
 /**
+ * Path to the components include directory.
+ */
+define('COMPONENTS', INC . 'components' . DS);
+
+/**
  * Path to the Admin includes directory.
  */
 define('ADMIN_INC', ROOT . DS . 'admin' . DS . 'inc' . DS);
