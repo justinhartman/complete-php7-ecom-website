@@ -3,6 +3,40 @@
 Below is a detailed change-log, along with specific tasks completed, for each
 version released to date.
 
+## Version 0.5.0 (22/10/2018)
+
+- [#new](#new)
+  - New Insert method now added to edit-address.php.
+  - Added new CSS styles for single.php.
+  - Added Debugging options for Dev environments.
+  - New PasswordHash method for hashing passwords correctly.
+  - Updated CSS with new styles to align with changes to index.php.
+  - Added new pattern.jpg file for the background image.
+  - Added new user does not exist error method on Login page.
+  - Added missing separator image.
+- [#enhancement](#enhancement)
+  - Converted queries to new MySQL objects.
+  - Added success, error and warning messages along with some validation.
+  - Changed MySQL connection script to use objects instead.
+  - Changed Login / Sign In buttons based on logged in/out state.
+  - Only display MySQL errors with Debugging on.
+  - Changed layout from the original theme.
+  - Changed the loop for product listing.
+  - Restructured footer.php and header.php for new layout.
+  - Redirect users to my-account on login.
+  - Cleaned up some pages.
+  - Rewrote the checkout.php page with new queries and better way of handling
+    post data.
+  - Added validation checking to the checkout.php POST variables and HTML form.
+  - Cleaned up CSS file.
+- [#bugfix](#bugfix)
+  - Fixed layout on single.php.
+  - Fixed Add to Wishlist button.
+  - Fixed dynamic link to Categories from Single page.
+  - Sanitised the input methods for XSS Attacks.
+  - Fixed layout with product products not appearing on the same lines.
+  - Fixed warning message about SESSION not being set.
+
 ## Version 0.4.0 (21/10/2018)
 
 - [#new](#new)
