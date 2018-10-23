@@ -59,6 +59,7 @@ session_start();
 $debug = getenv('ERROR_DEBUG', false);
 
 /**
- * Load the Database Connection.
+ * Load the Database Class file and setup a new $database Object.
  */
-require_once CONFIG . 'connect.php';
+require CLASSES . 'database.php';
+$database = new Database();

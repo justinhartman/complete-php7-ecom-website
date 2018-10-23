@@ -29,17 +29,26 @@
 require __DIR__ . '/config/bootstrap.php';
 
 if (isset($_POST) & !empty($_POST)) {
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    // Variables for the query.
+    $email = $database->Quote($_POST['email']);
     $password = $_POST['password'];
-    $sql = "SELECT * FROM `users` WHERE `email`='$email'";
-    $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-    $count = mysqli_num_rows($result);
-    $r = mysqli_fetch_assoc($result);
+    // Setup the query.
+    $query = "SELECT * FROM `users` WHERE `email`='$email'";
+    // Count the number of rows.
+    $count = $database->NumRows($query);
+    // Get results from the select statement.
+    $result = $database->Select($query);
 
-    if ($count == 1) {
-        if (password_verify($password, $r['password'])) {
+    // If the query is true then setup variables for the login.
+    if ($result == true) {
+        $pass = $result['0']['password'];
+        $user = $result['0']['id'];
+    }
+
+    if ($count === 1) {
+        if (password_verify($password, $pass)) {
             $_SESSION['customer'] = $email;
-            $_SESSION['customerid'] = $r['id'];
+            $_SESSION['customerid'] = $user;
             header("location: my-account.php");
         } else {
             header("location: login.php?message=1");
