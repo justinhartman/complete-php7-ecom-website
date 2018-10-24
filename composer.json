@@ -25,8 +25,8 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "/bin/cp config/.env.heroku config/.env",
-            "/bin/cp config/htaccess.prod .htaccess"
+            "/bin/cp config/.env.prod config/.env",
+            "/bin/cp config/.htaccess.prod .htaccess"
         ]
     },
     "prefer-stable": true,
