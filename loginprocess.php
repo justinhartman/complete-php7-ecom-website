@@ -30,22 +30,19 @@ require __DIR__ . '/config/bootstrap.php';
 
 if (isset($_POST) & !empty($_POST)) {
     // Variables for the query.
-    $email = $database->Quote($_POST['email']);
+    $email = $database->Escape($_POST['email']);
     $password = $_POST['password'];
     // Setup the query.
-    $query = "SELECT * FROM `users` WHERE `email`='$email'";
-    // Count the number of rows.
-    $count = $database->NumRows($query);
-    // Get results from the select statement.
-    $result = $database->Select($query);
+    $query = $database->SingleSelect("id, email, password", "users", "WHERE `email`='$email'");
 
-    // If the query is true then setup variables for the login.
-    if ($result == true) {
-        $pass = $result['0']['password'];
-        $user = $result['0']['id'];
-    }
-
-    if ($count === 1) {
+    // If the query is true then setup variables for the login else redirect
+    // user telling them their email doesn't exist on the system.
+    if ($query !== null) {
+        $pass = $query['password'];
+        $user = $query['id'];
+        // Verify the password. Redirect to my-account on successful login, else
+        // redirect with an error message status telling the user they have
+        // their email and password incorrect.
         if (password_verify($password, $pass)) {
             $_SESSION['customer'] = $email;
             $_SESSION['customerid'] = $user;

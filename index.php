@@ -55,16 +55,14 @@ include INC . 'nav.php';
                             <?php
                             // Get a list of all the products; either for the home page or the
                             // individual category pages.
-                            $sql = "SELECT * FROM `products`";
                             if (isset($_GET['id']) & !empty($_GET['id'])) {
-                                $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
-                                $sql .= " WHERE `catid`=$id";
+                                $catId = $database->Escape($_GET['id']);
+                                $products = $database->Select("id, name, thumb, price", "products", "WHERE `catid`='$catId'");
+                            } else {
+                                $products = $database->Select("id, name, thumb, price", "products");
                             }
-                            // Setup the data for the loop.
-                            $res = mysqli_query($connection, $sql);
-                            $product = mysqli_fetch_assoc($res);
                             // Run through all the products and display the items.
-                            foreach ($res as $r):
+                            while ($product = $products->fetch_assoc()):
                                 // This checks for every third product item in the list and
                                 // outputs a clearfix component to ensure our layout renders
                                 // as expected and ensures the products all line up correctly.
@@ -76,11 +74,11 @@ include INC . 'nav.php';
                                 <div class="shop-item">
                                     <div class="product">
                                         <div class="product-thumb">
-                                            <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $r['thumb']; ?>" class="img-responsive" width="250px" alt="">
+                                            <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $product['thumb']; ?>" class="img-responsive" width="250px" alt="">
                                             <div class="product-overlay">
                                                 <span>
-                                                    <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $r['id']; ?>" class="fa fa-link"></a>
-                                                    <a href="<?php echo getenv('STORE_URL'); ?>/addtocart.php?id=<?php echo $r['id']; ?>" class="fa fa-shopping-cart"></a>
+                                                    <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $product['id']; ?>" class="fa fa-link"></a>
+                                                    <a href="<?php echo getenv('STORE_URL'); ?>/addtocart.php?id=<?php echo $product['id']; ?>" class="fa fa-shopping-cart"></a>
                                                 </span>
                                             </div>
                                         </div>
@@ -92,12 +90,12 @@ include INC . 'nav.php';
                                             <span class="fa fa-star act"></span>
                                             <span class="fa fa-star act"></span>
                                         </div>
-                                        <h2 class="product-title"><a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $r['id']; ?>"><?php echo $r['name']; ?></a></h2>
-                                        <div class="product-price"><?php echo getenv('STORE_CURRENCY') . $r['price']; ?><span></span></div>
+                                        <h2 class="product-title"><a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $product['id']; ?>"><?php echo $product['name']; ?></a></h2>
+                                        <div class="product-price"><?php echo getenv('STORE_CURRENCY') . $product['price']; ?><span></span></div>
                                     </div>
                                 </div>
                             <?php
-                            endforeach; ?>
+                        endwhile; ?>
                         </div>
                     </div>
                     <div class="clearfix"></div>

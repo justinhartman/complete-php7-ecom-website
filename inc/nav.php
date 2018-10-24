@@ -1,14 +1,3 @@
-                    <?php
-                    // Check to see if the cart is in the session data else default to null.
-                    // We do this because the $cart and $count variables are used extensively
-                    // below and will output warnings if we don't.
-                    if (isset($_SESSION['cart'])) {
-                        $cart = $_SESSION['cart'];
-                        $count = count($cart);
-                    } else {
-                        $count = 0;
-                    }
-                    ?>
                     <div class="menu-wrap">
                         <div id="mobnav-btn">Menu <i class="fa fa-bars"></i></div>
                         <ul class="sf-menu">
@@ -20,11 +9,10 @@
                                 <div class="mobnav-subarrow"><i class="fa fa-plus"></i></div>
                                 <ul>
                                     <?php
-                                    $catsql = "SELECT * FROM `category`";
-                                    $catres = mysqli_query($connection, $catsql);
-                                    while ($catr = mysqli_fetch_assoc($catres)) {
+                                    $categories = $database->Select('id, name', 'category');
+                                    while ($category = $categories->fetch_assoc()) {
                                         ?>
-                                        <li><a href="<?php echo getenv('STORE_URL'); ?>/index.php?id=<?php echo $catr['id']; ?>"><?php echo $catr['name']; ?></a></li>
+                                        <li><a href="<?php echo getenv('STORE_URL'); ?>/index.php?id=<?php echo $category['id']; ?>"><?php echo $category['name']; ?></a></li>
                                         <?php
                                     } ?>
                                 </ul>
@@ -68,23 +56,21 @@
                                     <?php
                                     if ($count !== 0) {
                                         foreach ($cart as $key => $value) {
-                                            $navcartsql = "SELECT * FROM `products` WHERE `id`=$key";
-                                            $navcartres = mysqli_query($connection, $navcartsql);
-                                            $navcartr = mysqli_fetch_assoc($navcartres); ?>
+                                            $navCart = $database->SingleSelect("id, name, thumb, price", "products", "`id`='$key'"); ?>
                                             <div class="ci-item">
-                                                <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $navcartr['thumb']; ?>" width="70" alt=""/>
+                                                <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $navCart['thumb']; ?>" width="70" alt=""/>
                                                 <div class="ci-item-info">
                                                     <h5>
-                                                        <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $navcartr['id']; ?>"><?php echo substr($navcartr['name'], 0, 20); ?></a>
+                                                        <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $navCart['id']; ?>"><?php echo substr($navCart['name'], 0, 20); ?></a>
                                                     </h5>
-                                                    <p><?php echo $value['quantity'] . ' x ' . getenv('STORE_CURRENCY') . $navcartr['price']; ?></p>
+                                                    <p><?php echo $value['quantity'] . ' x ' . getenv('STORE_CURRENCY') . $navCart['price']; ?></p>
                                                     <div class="ci-edit">
                                                         <a href="<?php echo getenv('STORE_URL'); ?>/delcart.php?id=<?php echo $key; ?>" class="edit fa fa-trash"></a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <?php
-                                            $cartTotal = $cartTotal + ($navcartr['price']*$value['quantity']);
+                                            $cartTotal = $cartTotal + ($navCart['price']*$value['quantity']);
                                         } ?>
                                     <div class="ci-total">Subtotal: <?php echo getenv('STORE_CURRENCY') . $cartTotal; ?></div>
                                     <div class="cart-btn">

@@ -74,31 +74,30 @@ $cart = $_SESSION['cart'];
                         <tbody>
 
                             <?php
-                            $ordsql = "SELECT * FROM `orders` WHERE `uid`='$uid'";
-                            $ordres = mysqli_query($connection, $ordsql);
-                            while ($ordr = mysqli_fetch_assoc($ordres)) {
+                            $orders = $database->Select("id, timestamp, orderstatus, paymentmode, totalprice", "orders", "WHERE `uid`='$uid'");
+                            while ($order = $orders->fetch_assoc()) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?php echo $ordr['id']; ?>
+                                        <?php echo $order['id']; ?>
                                     </td>
                                     <td>
-                                        <?php echo $ordr['timestamp']; ?>
+                                        <?php echo $order['timestamp']; ?>
                                     </td>
                                     <td>
-                                        <?php echo $ordr['orderstatus']; ?>
+                                        <?php echo $order['orderstatus']; ?>
                                     </td>
                                     <td>
-                                        <?php echo $ordr['paymentmode']; ?>
+                                        <?php echo $order['paymentmode']; ?>
                                     </td>
                                     <td>
-                                        <?php echo getenv('STORE_CURRENCY') . $ordr['totalprice']; ?>
+                                        <?php echo getenv('STORE_CURRENCY') . $order['totalprice']; ?>
                                     </td>
                                     <td>
-                                        <a href="<?php echo getenv('STORE_URL'); ?>/view-order.php?id=<?php echo $ordr['id']; ?>">View</a>
-                                        <?php if ($ordr['orderstatus'] != 'Cancelled') {
+                                        <a href="<?php echo getenv('STORE_URL'); ?>/view-order.php?id=<?php echo $order['id']; ?>">View</a>
+                                        <?php if ($order['orderstatus'] != 'Cancelled') {
                                             ?>
-                                            | <a href="<?php echo getenv('STORE_URL'); ?>/cancel-order.php?id=<?php echo $ordr['id']; ?>">Cancel</a>
+                                            | <a href="<?php echo getenv('STORE_URL'); ?>/cancel-order.php?id=<?php echo $order['id']; ?>">Cancel</a>
                                             <?php
                                         } ?>
                                     </td>
@@ -120,20 +119,20 @@ $cart = $_SESSION['cart'];
                             <div class="col-md-6">
                                 <h4>My Address <a href="<?php echo getenv('STORE_URL'); ?>/edit-address.php">Edit</a></h4>
                                 <?php
-                                $csql = "SELECT `u1`.`firstname`, `u1`.`lastname`, `u1`.`address1`, `u1`.`address2`, `u1`.`city`, `u1`.`state`, `u1`.`country`, `u1`.`company`, `u`.`email`, `u1`.`mobile`, `u1`.`zip` FROM `users` `u` JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`=$uid";
-                                $cres = mysqli_query($connection, $csql);
-                                if (mysqli_num_rows($cres) == 1) {
-                                    $cr = mysqli_fetch_assoc($cres);
-                                    echo "<p>".$cr['firstname'] ." ". $cr['lastname'] ."</p>";
-                                    echo "<p>".$cr['address1'] ."</p>";
-                                    echo "<p>".$cr['address2'] ."</p>";
-                                    echo "<p>".$cr['city'] ."</p>";
-                                    echo "<p>".$cr['state'] ."</p>";
-                                    echo "<p>".$cr['country'] ."</p>";
-                                    echo "<p>".$cr['company'] ."</p>";
-                                    echo "<p>".$cr['zip'] ."</p>";
-                                    echo "<p>".$cr['mobile'] ."</p>";
-                                    echo "<p>".$cr['email'] ."</p>";
+                                // Setup the query.
+                                $address = $database->SingleSelect("`u1`.`firstname`, `u1`.`lastname`, `u1`.`address1`, `u1`.`address2`, `u1`.`city`, `u1`.`state`, `u1`.`country`, `u1`.`company`, `u`.`email`, `u1`.`mobile`, `u1`.`zip`", "`users` `u`", "JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`='$uid'");
+                                // If there is a valid address then display the data.
+                                if ($address !== null) {
+                                    echo "<p>".$address['firstname'] ." ". $address['lastname'] ."</p>";
+                                    echo "<p>".$address['address1'] ."</p>";
+                                    echo "<p>".$address['address2'] ."</p>";
+                                    echo "<p>".$address['city'] ."</p>";
+                                    echo "<p>".$address['state'] ."</p>";
+                                    echo "<p>".$address['country'] ."</p>";
+                                    echo "<p>".$address['company'] ."</p>";
+                                    echo "<p>".$address['zip'] ."</p>";
+                                    echo "<p>".$address['mobile'] ."</p>";
+                                    echo "<p>".$address['email'] ."</p>";
                                 }
                                 ?>
                             </div>
