@@ -2,7 +2,8 @@
 #
 # (!) Using `.htaccess` files slows down Apache, therefore, if you have
 # access to the main server configuration file (which is usually called
-# `httpd.conf`), you should add this logic there.
+# `httpd.conf`), you should add this logic there and delete whatever is not
+# relevant below.
 #
 # https://httpd.apache.org/docs/current/howto/htaccess.html
 #
@@ -38,6 +39,8 @@ Options -MultiViews
 # with the media type `charset` parameter set to `UTF-8`.
 AddDefaultCharset utf-8
 
+# Rewrite Rules
+# Enable the Rewrite rules below if mod_rewrite is enabled in Apache.
 <IfModule mod_rewrite.c>
     # Turn Rewrite engine on to enable the rewrite rules.
     RewriteEngine on
@@ -50,7 +53,6 @@ AddDefaultCharset utf-8
     # root of your site, '/' should work, else it might be something along the
     # lines of: RewriteBase /<your_sub_folder>
     #
-    # RewriteBase /
     RewriteBase /ecom/
 
     # Set %{ENV:PROTO} variable, to allow rewrites to redirect with the
@@ -61,8 +63,8 @@ AddDefaultCharset utf-8
     RewriteRule ^ - [env=proto:http]
 
     # Redirect http to https
-    RewriteCond %{HTTPS} !=on
-    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    # RewriteCond %{HTTPS} !=on
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
     # Redirect www to non-www
     # (!) NEVER USE BOTH WWW-RELATED RULES AT THE SAME TIME!
@@ -136,11 +138,13 @@ AddDefaultCharset utf-8
     </Files>
 </IfModule>
 
+# Indexes
 # Block access to directories without a default document.
 <IfModule mod_autoindex.c>
     Options -Indexes
 </IfModule>
 
+# Security
 # Uncomment the following to prevent the httpoxy vulnerability
 # See: https://httpoxy.org/
 # <IfModule mod_headers.c>
@@ -148,16 +152,15 @@ AddDefaultCharset utf-8
 # </IfModule>
 
 # Allow cross-origin requests.
-# https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
-# https://enable-cors.org/
-# https://www.w3.org/TR/cors/
+# See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+# See: https://enable-cors.org/
+# See: https://www.w3.org/TR/cors/
 # <IfModule mod_headers.c>
 #     Header set Access-Control-Allow-Origin "*"
 # </IfModule>
 
 # Send the CORS header for images when browsers request it.
-# https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
-# https://blog.chromium.org/2011/07/using-cross-domain-images-in-webgl-and.html
+# See: https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image
 <IfModule mod_setenvif.c>
     <IfModule mod_headers.c>
         <FilesMatch "\.(bmp|cur|gif|ico|jpe?g|png|svgz?|webp)$">
@@ -167,6 +170,7 @@ AddDefaultCharset utf-8
     </IfModule>
 </IfModule>
 
+# Headers Module
 # Allow cross-origin access to web fonts.
 <IfModule mod_headers.c>
     <FilesMatch "\.(eot|otf|tt[cf]|woff2?)$">
@@ -179,6 +183,7 @@ AddDefaultCharset utf-8
     Header set X-Content-Type-Options "nosniff"
 </IfModule>
 
+# Set XSS Protection.
 <IfModule mod_headers.c>
     # Try to re-enable the cross-site scripting (XSS) filter built into most web
     # browsers. Prevent web browsers from rendering the web page if a potential
@@ -208,10 +213,8 @@ AddDefaultCharset utf-8
 
 # Media Types
 # Serve resources with the proper media types (f.k.a. MIME types).
-#
-# https://www.iana.org/assignments/media-types/media-types.xhtml
-# https://httpd.apache.org/docs/current/mod/mod_mime.html#addtype
-
+# See: https://www.iana.org/assignments/media-types/media-types.xhtml
+# See: https://httpd.apache.org/docs/current/mod/mod_mime.html#addtype
 <IfModule mod_mime.c>
     # Data interchange
     AddType application/atom+xml                        atom
@@ -220,17 +223,14 @@ AddDefaultCharset utf-8
     AddType application/rss+xml                         rss
     AddType application/vnd.geo+json                    geojson
     AddType application/xml                             rdf xml
-
     # JavaScript
     # Servers should use text/javascript for JavaScript resources.
     # https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages
     AddType text/javascript                             js mjs
-
     # Manifest files
     AddType application/manifest+json                   webmanifest
     AddType application/x-web-app-manifest+json         webapp
     AddType text/cache-manifest                         appcache
-
     # Media files
     AddType audio/mp4                                   f4a f4b m4a
     AddType audio/ogg                                   oga ogg opus
@@ -245,10 +245,8 @@ AddDefaultCharset utf-8
     # prevents Internet Explorer from displaying them as images:
     # https://github.com/h5bp/html5-boilerplate/commit/37b5fec090d00f38de64b591bcddcb205aadf8ee
     AddType image/x-icon                                cur ico
-
     # WebAssembly
     AddType application/wasm                            wasm
-
     # Web fonts
     AddType font/woff                                   woff
     AddType font/woff2                                  woff2
@@ -256,7 +254,6 @@ AddDefaultCharset utf-8
     AddType font/ttf                                    ttf
     AddType font/collection                             ttc
     AddType font/otf                                    otf
-
     # Other
     AddType application/octet-stream                    safariextz
     AddType application/x-bb-appworld                   bbaw
@@ -271,9 +268,9 @@ AddDefaultCharset utf-8
     AddType text/x-component                            htc
 </IfModule>
 
-# Serve the following file types with the media type `charset`
-# parameter set to `UTF-8`.
-# https://httpd.apache.org/docs/current/mod/mod_mime.html#addcharset
+# Mime Types
+# Serve the following file types with the media type `charset` set to `UTF-8`.
+# See: https://httpd.apache.org/docs/current/mod/mod_mime.html#addcharset
 <IfModule mod_mime.c>
     AddCharset utf-8 .atom \
                      .bbaw \
@@ -297,6 +294,7 @@ AddDefaultCharset utf-8
                      .xml
 </IfModule>
 
+# Access
 # Block access to files that can expose sensitive information.
 <IfModule mod_authz_core.c>
     <FilesMatch "(^#.*#|\.(bak|conf|dist|fla|in[ci]|log|orig|psd|sh|sql|sw[op])|~)$">
@@ -304,17 +302,16 @@ AddDefaultCharset utf-8
     </FilesMatch>
 </IfModule>
 
-# Compression / Web Performance.
+# Compression / Web Performance
 <IfModule mod_deflate.c>
-    # Force compression for mangled `Accept-Encoding` request headers
-    # https://developer.yahoo.com/blogs/ydn/pushing-beyond-gzipping-25601.html
+    # Force compression for mangled `Accept-Encoding` request headers.
+    # See: https://developer.yahoo.com/blogs/ydn/pushing-beyond-gzipping-25601.html
     <IfModule mod_setenvif.c>
         <IfModule mod_headers.c>
             SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
             RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
         </IfModule>
     </IfModule>
-
     # Compress all output labeled with one of the following media types.
     <IfModule mod_filter.c>
         AddOutputFilterByType DEFLATE "application/atom+xml" \
