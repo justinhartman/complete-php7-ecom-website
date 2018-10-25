@@ -74,7 +74,7 @@ $cart = $_SESSION['cart'];
                         <tbody>
 
                             <?php
-                            $orders = $database->Select("id, timestamp, orderstatus, paymentmode, totalprice", "orders", "WHERE `uid`='$uid'");
+                            $orders = $database->select("id, timestamp, orderstatus, paymentmode, totalprice", "orders", "WHERE `uid`='$uid'");
                             while ($order = $orders->fetch_assoc()) {
                                 ?>
                                 <tr>
@@ -120,7 +120,7 @@ $cart = $_SESSION['cart'];
                                 <h4>My Address <a href="<?php echo getenv('STORE_URL'); ?>/edit-address.php">Edit</a></h4>
                                 <?php
                                 // Setup the query.
-                                $address = $database->SingleSelect("`u1`.`firstname`, `u1`.`lastname`, `u1`.`address1`, `u1`.`address2`, `u1`.`city`, `u1`.`state`, `u1`.`country`, `u1`.`company`, `u`.`email`, `u1`.`mobile`, `u1`.`zip`", "`users` `u`", "JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`='$uid'");
+                                $address = $database->singleSelect("`u1`.`firstname`, `u1`.`lastname`, `u1`.`address1`, `u1`.`address2`, `u1`.`city`, `u1`.`state`, `u1`.`country`, `u1`.`company`, `u`.`email`, `u1`.`mobile`, `u1`.`zip`", "`users` `u`", "JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`='$uid'");
                                 // If there is a valid address then display the data.
                                 if ($address !== null) {
                                     echo "<p>".$address['firstname'] ." ". $address['lastname'] ."</p>";

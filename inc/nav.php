@@ -9,7 +9,7 @@
                                 <div class="mobnav-subarrow"><i class="fa fa-plus"></i></div>
                                 <ul>
                                     <?php
-                                    $categories = $database->Select('id, name', 'category');
+                                    $categories = $database->select('id, name', 'category');
                                     while ($category = $categories->fetch_assoc()) {
                                         ?>
                                         <li><a href="<?php echo getenv('STORE_URL'); ?>/index.php?id=<?php echo $category['id']; ?>"><?php echo $category['name']; ?></a></li>
@@ -56,7 +56,7 @@
                                     <?php
                                     if ($count !== 0) {
                                         foreach ($cart as $key => $value) {
-                                            $navCart = $database->SingleSelect("id, name, thumb, price", "products", "`id`='$key'"); ?>
+                                            $navCart = $database->singleSelect("id, name, thumb, price", "products", "`id`='$key'"); ?>
                                             <div class="ci-item">
                                                 <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $navCart['thumb']; ?>" width="70" alt=""/>
                                                 <div class="ci-item-info">

@@ -65,13 +65,12 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
         <div class="container">
             <div class="row">
             <?php
-				$ordsql = "SELECT * FROM `orders` WHERE `uid`='$uid' AND `id`='$oid'";
-				$ordres = mysqli_query($connection, $ordsql);
-				$ordr = mysqli_fetch_assoc($ordres);
-				$orditmsql = "SELECT * FROM `orderitems` `oi`, `orders` `o` JOIN `products` `p` WHERE `o`.`uid`='$uid' AND `o`.`id`='$oid' AND `oi`.`orderid`='$oid' AND `oi`.`pid`=`p`.`id`";
-				$orditmres = mysqli_query($connection, $orditmsql);
-
-				if (mysqli_num_rows($orditmres) !== 0) {
+                // Query to get the order total amount.
+                $ordersTotal = $database->singleSelect("`totalprice`, `orderstatus`, `timestamp`", "`orders`", "WHERE `uid`='$uid' AND `id`='$oid'", "assoc");
+                // Query to get all the products that were ordered.
+                $orderItem = $database->select("`pid`, `name`, `pquantity`, `productprice`", "`orderitems` `oi`, `orders` `o`", "JOIN `products` `p` WHERE `o`.`uid`='$uid' AND `o`.`id`='$oid' AND `oi`.`orderid`='$oid' AND `oi`.`pid`=`p`.`id`");
+                // Check that we have data for the order items.
+                if ($orderItem !== null) {
 			?>
                 <div class="page_header text-center">
                     <h2>Order #<?php echo $oid; ?></h2>
@@ -90,19 +89,19 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
                         </thead>
                         <tbody>
 
-                        <?php while ($orditmr = mysqli_fetch_assoc($orditmres)) { ?>
+                        <?php while ($orderItems = $orderItem->fetch_assoc()) { ?>
                             <tr>
                                 <td>
-                                    <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $orditmr['pid']; ?>"><?php echo substr($orditmr['name'], 0, 25); ?></a>
+                                    <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $orderItems['pid']; ?>"><?php echo substr($orderItems['name'], 0, 25); ?></a>
                                 </td>
                                 <td>
-                                    <?php echo $orditmr['pquantity']; ?>
+                                    <?php echo $orderItems['pquantity']; ?>
                                 </td>
                                 <td>
-                                    <?php echo getenv('STORE_CURRENCY') . $orditmr['productprice']; ?>
+                                    <?php echo getenv('STORE_CURRENCY') . $orderItems['productprice']; ?>
                                 </td>
                                 <td>
-                                    <?php echo getenv('STORE_CURRENCY') . $orditmr['productprice']*$orditmr['pquantity']; ?>
+                                    <?php echo getenv('STORE_CURRENCY') . $orderItems['productprice']*$orderItems['pquantity']; ?>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -113,7 +112,7 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
                                     Order Total
                                 </td>
                                 <td>
-                                    <?php echo getenv('STORE_CURRENCY') . $ordr['totalprice']; ?>
+                                    <?php echo getenv('STORE_CURRENCY') . $ordersTotal['totalprice']; ?>
                                 </td>
                             </tr>
                             <tr>
@@ -123,7 +122,7 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
                                     Order Status
                                 </td>
                                 <td>
-                                    <?php echo $ordr['orderstatus']; ?>
+                                    <?php echo $ordersTotal['orderstatus']; ?>
                                 </td>
                             </tr>
                             <tr>
@@ -133,7 +132,7 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
                                     Order Placed On
                                 </td>
                                 <td>
-                                    <?php echo $ordr['timestamp']; ?>
+                                    <?php echo $ordersTotal['timestamp']; ?>
                                 </td>
                             </tr>
                         </tbody>
@@ -159,20 +158,21 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
                             <div class="col-md-6">
                                 <h4>My Address <a href="<?php echo getenv('STORE_URL'); ?>/edit-address.php">Edit</a></h4>
                             <?php
-        						$csql = "SELECT `u1`.`firstname`, `u1`.`lastname`, `u1`.`address1`, `u1`.`address2`, `u1`.`city`, `u1`.`state`, `u1`.`country`, `u1`.`company`, `u`.`email`, `u1`.`mobile`, `u1`.`zip` FROM `users` `u` JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`=$uid";
-        						$cres = mysqli_query($connection, $csql);
-        						if(mysqli_num_rows($cres) == 1){
-        							$cr = mysqli_fetch_assoc($cres);
-        							echo "<p>".$cr['firstname'] ." ". $cr['lastname'] ."</p>";
-        							echo "<p>".$cr['address1'] ."</p>";
-        							echo "<p>".$cr['address2'] ."</p>";
-        							echo "<p>".$cr['city'] ."</p>";
-        							echo "<p>".$cr['state'] ."</p>";
-        							echo "<p>".$cr['country'] ."</p>";
-        							echo "<p>".$cr['company'] ."</p>";
-        							echo "<p>".$cr['zip'] ."</p>";
-        							echo "<p>".$cr['mobile'] ."</p>";
-        							echo "<p>".$cr['email'] ."</p>";
+                                // Join query to get the users address from the usersmeta table.
+                                $userDetails = $database->singleSelect("`u1`.`firstname`, `u1`.`lastname`, `u1`.`address1`, `u1`.`address2`, `u1`.`city`, `u1`.`state`, `u1`.`country`, `u1`.`company`, `u`.`email`, `u1`.`mobile`, `u1`.`zip`", "`users` `u`", "JOIN `usersmeta` `u1` WHERE `u`.`id`=`u1`.`uid` AND `u`.`id`='$uid'", "assoc");
+
+        						// Display the address details is there is one in the usersmeta table.
+        						if($userDetails !== 0){
+        							echo "<p>".$userDetails['firstname'] ." ". $userDetails['lastname'] ."</p>";
+        							echo "<p>".$userDetails['address1'] ."</p>";
+        							echo "<p>".$userDetails['address2'] ."</p>";
+        							echo "<p>".$userDetails['city'] ."</p>";
+        							echo "<p>".$userDetails['state'] ."</p>";
+        							echo "<p>".$userDetails['country'] ."</p>";
+        							echo "<p>".$userDetails['company'] ."</p>";
+        							echo "<p>".$userDetails['zip'] ."</p>";
+        							echo "<p>".$userDetails['mobile'] ."</p>";
+        							echo "<p>".$userDetails['email'] ."</p>";
         						}
         					?>
                             </div>

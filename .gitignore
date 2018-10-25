@@ -20,6 +20,7 @@
 /config/.env
 /config/env.php
 password-cost.php
+/inc/classes/mysqli-examples/
 
 ######################
 ### macOS Specific ###

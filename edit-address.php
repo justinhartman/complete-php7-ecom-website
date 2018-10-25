@@ -50,25 +50,27 @@ $cart = $_SESSION['cart'];
 /**
  * Get the user data from the Database to pre-populate the form.
  */
-$sql = "SELECT * FROM `usersmeta` WHERE `uid`='$uid'";
-$res = $connection->query($sql);
-$count = $res->num_rows;
-$r = $res->fetch_assoc();
+$userMeta = $database->singleSelect("*", "usersmeta", "WHERE `uid`='$uid'");
+// $sql = "SELECT * FROM `usersmeta` WHERE `uid`='$uid'";
+// $res = $connection->query($sql);
+// $count = $res->num_rows;
+// $r = $res->fetch_assoc();
 
 /**
  * Add or Update the Address details in the Database.
  */
 if (isset($_POST) & !empty($_POST)) {
-    $country = filter_var($_POST['country'], FILTER_SANITIZE_STRING);
-    $firstName = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
-    $surname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
-    $company = filter_var($_POST['company'], FILTER_SANITIZE_STRING);
-    $address1 = filter_var($_POST['address1'], FILTER_SANITIZE_STRING);
-    $address2 = filter_var($_POST['address2'], FILTER_SANITIZE_STRING);
-    $city = filter_var($_POST['city'], FILTER_SANITIZE_STRING);
-    $state = filter_var($_POST['state'], FILTER_SANITIZE_STRING);
-    $phone = filter_var($_POST['phone'], FILTER_SANITIZE_NUMBER_INT);
-    $zip = filter_var($_POST['zipcode'], FILTER_SANITIZE_STRING);
+    $country   = $database->escape($_POST['country']);
+    $country   = $database->escape($_POST['country']);
+    $firstName = $database->escape($_POST['fname']);
+    $surname   = $database->escape($_POST['lname']);
+    $company   = $database->escape($_POST['company']);
+    $address1  = $database->escape($_POST['address1']);
+    $address2  = $database->escape($_POST['address2']);
+    $city      = $database->escape($_POST['city']);
+    $state     = $database->escape($_POST['state']);
+    $phone     = $database->escape($_POST['phone']);
+    $zip       = $database->escape($_POST['zipcode']);
 
     // We either use an UPDATE or INSERT statement depending on whether or not
     // the user has added their address details before.
@@ -146,8 +148,8 @@ if (isset($_POST) & !empty($_POST)) {
                             <label class="">Country <i style="color:tomato;">*</i></label>
                             <select name="country" class="form-control" required>
                                 <?php
-                                if (!empty($r['country'])) {
-                                    echo '<option value="'.$r['country'].'">'.$r['country'].'</option>';
+                                if (!empty($userMeta['country'])) {
+                                    echo '<option value="'.$userMeta['country'].'">'.$userMeta['country'].'</option>';
                                 } else {
                                     echo '<option value="">Select Country</option>'. "\n";
                                 } ?>
@@ -400,16 +402,16 @@ if (isset($_POST) & !empty($_POST)) {
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>First Name <i style="color:tomato;">*</i></label>
-                                    <input name="fname" class="form-control" placeholder="" value="<?php if (!empty($r['firstname'])) {
-                                        echo $r['firstname'];
+                                    <input name="fname" class="form-control" placeholder="" value="<?php if (!empty($userMeta['firstname'])) {
+                                        echo $userMeta['firstname'];
                                     } elseif (isset($firstName)) {
                                         echo $firstName;
                                     } ?>" type="text" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Last Name <i style="color:tomato;">*</i></label>
-                                    <input name="lname" class="form-control" placeholder="" value="<?php if (!empty($r['lastname'])) {
-                                        echo $r['lastname'];
+                                    <input name="lname" class="form-control" placeholder="" value="<?php if (!empty($userMeta['lastname'])) {
+                                        echo $userMeta['lastname'];
                                     } elseif (isset($surname)) {
                                         echo $surname;
                                     } ?>" type="text" required>
@@ -417,21 +419,21 @@ if (isset($_POST) & !empty($_POST)) {
                             </div>
                             <div class="clearfix space20"></div>
                             <label>Company Name</label>
-                            <input name="company" class="form-control" placeholder="" value="<?php if (!empty($r['company'])) {
-                                echo $r['company'];
+                            <input name="company" class="form-control" placeholder="" value="<?php if (!empty($userMeta['company'])) {
+                                echo $userMeta['company'];
                             } elseif (isset($company)) {
                                 echo $company;
                             } ?>" type="text">
                             <div class="clearfix space20"></div>
                             <label>Address <i style="color:tomato;">*</i></label>
-                            <input name="address1" class="form-control" placeholder="Street address" value="<?php if (!empty($r['address1'])) {
-                                echo $r['address1'];
+                            <input name="address1" class="form-control" placeholder="Street address" value="<?php if (!empty($userMeta['address1'])) {
+                                echo $userMeta['address1'];
                             } elseif (isset($address1)) {
                                 echo $address1;
                             } ?>" type="text" required>
                             <div class="clearfix space20"></div>
-                            <input name="address2" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" value="<?php if (!empty($r['address2'])) {
-                                echo $r['address2'];
+                            <input name="address2" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" value="<?php if (!empty($userMeta['address2'])) {
+                                echo $userMeta['address2'];
                             } elseif (isset($address2)) {
                                 echo $address2;
                             } ?>" type="text">
@@ -439,24 +441,24 @@ if (isset($_POST) & !empty($_POST)) {
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>City <i style="color:tomato;">*</i></label>
-                                    <input name="city" class="form-control" placeholder="City" value="<?php if (!empty($r['city'])) {
-                                        echo $r['city'];
+                                    <input name="city" class="form-control" placeholder="City" value="<?php if (!empty($userMeta['city'])) {
+                                        echo $userMeta['city'];
                                     } elseif (isset($city)) {
                                         echo $city;
                                     } ?>" type="text" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>State <i style="color:tomato;">*</i></label>
-                                    <input name="state" class="form-control" value="<?php if (!empty($r['state'])) {
-                                        echo $r['state'];
+                                    <input name="state" class="form-control" value="<?php if (!empty($userMeta['state'])) {
+                                        echo $userMeta['state'];
                                     } elseif (isset($state)) {
                                         echo $state;
                                     } ?>" placeholder="State" type="text" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>Postcode <i style="color:tomato;">*</i></label>
-                                    <input name="zipcode" class="form-control" placeholder="Postcode / Zip" value="<?php if (!empty($r['zip'])) {
-                                        echo $r['zip'];
+                                    <input name="zipcode" class="form-control" placeholder="Postcode / Zip" value="<?php if (!empty($userMeta['zip'])) {
+                                        echo $userMeta['zip'];
                                     } elseif (isset($zip)) {
                                         echo $zip;
                                     } ?>" type="text" required>
@@ -464,8 +466,8 @@ if (isset($_POST) & !empty($_POST)) {
                             </div>
                             <div class="clearfix space20"></div>
                             <label>Phone <i style="color:tomato;">*</i></label>
-                            <input name="phone" class="form-control" id="billing_phone" placeholder="" value="<?php if (!empty($r['mobile'])) {
-                                echo $r['mobile'];
+                            <input name="phone" class="form-control" id="billing_phone" placeholder="" value="<?php if (!empty($userMeta['mobile'])) {
+                                echo $userMeta['mobile'];
                             } elseif (isset($phone)) {
                                 echo $phone;
                             } ?>" type="text" required>

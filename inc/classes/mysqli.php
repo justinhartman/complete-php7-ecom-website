@@ -38,17 +38,17 @@ final class DatabaseManager extends \mysqli
 {
 
     /**
-     * Get MultipleInsert() insert id's.
+     * Get multiInsert() insert id's.
      *
      * @var array
      */
-    public $insert_ids = array();
+    public $insertIds = array();
 
     /**
      * Define the connection as a static variable so as to avoid connecting more
      * than once.
      */
-    protected static $db_connect;
+    protected static $dbConnect;
 
     /**
      * The constructor function.
@@ -60,13 +60,13 @@ final class DatabaseManager extends \mysqli
      *
      * @return object Returns a MySQLi connect object.
      */
-    public function Connect($host = null, $user = null, $password = null, $database = null, $port = null, $socket = null)
+    public function connect($host = null, $user = null, $password = null, $database = null, $port = null, $socket = null)
     {
-        $this->db_connect = parent::__construct($host, $user, $password, $database, $port, $socket);
+        $this->dbConnect = parent::__construct($host, $user, $password, $database, $port, $socket);
 
         // If there is an error, return the error message.
         if ($this->connect_error) {
-            throw new \Exception(' Failed Connect to MySQL Database <br /> Error Info : ' . $this->connect_error);
+            throw new \Exception(' Failed connect to MySQL Database <br /> Error Info : ' . $this->connect_error);
         }
 
         // Return a UTF-8 character set.
@@ -79,7 +79,7 @@ final class DatabaseManager extends \mysqli
      * @param  string $data
      * @return string Converted utf8 string.
      */
-    protected function ToUtf8($data)
+    protected function toUtf($data)
     {
         // Convert the string to a UTF-8 string.
         return mb_convert_encoding($data, 'UTF-8', mb_detect_encoding($data));
@@ -94,9 +94,9 @@ final class DatabaseManager extends \mysqli
      *
      * @return string       'str' returns a string | 'int' returns an integer.
      */
-    public function Escape($data, $type = 'str') {
-        // Use the ToUtf8() method to convert to a UTF-8 string.
-        $data = $this->ToUtf8($data);
+    public function escape($data, $type = 'str') {
+        // Use the toUtf() method to convert to a UTF-8 string.
+        $data = $this->toUtf($data);
 
         // If it is a string (i.e 'str') then strip the slashes and convert to
         // a safe encoded string.
@@ -116,7 +116,7 @@ final class DatabaseManager extends \mysqli
     }
 
     /**
-     * Select data from the database using a SELECT query.
+     * select data from the database using a SELECT query.
      *
      * @param  string $select columns ex: username, pass, email ....
      * @param  string $from   table name
@@ -124,14 +124,14 @@ final class DatabaseManager extends \mysqli
      *
      * @return object Returnd the query result.
      */
-    public function Select($select, $from, $where = '')
+    public function select($select, $from, $where = '')
     {
         // Run the SELECT query on the table.
         return $this->query("SELECT {$select} FROM {$from} {$where}");
     }
 
     /**
-     * Selects one row from the table.
+     * selects one row from the table.
      *
      * @param  string $select List of columns to select from the table.
      * @param  string $from   Table name.
@@ -144,7 +144,7 @@ final class DatabaseManager extends \mysqli
      *                        $fetch == object it returns an object | if
      *                        $data == false it returns null.
      */
-    public function SingleSelect($select, $from, $where = '', $fetch = 'assoc')
+    public function singleSelect($select, $from, $where = '', $fetch = 'assoc')
     {
         // Define the variables. Set return to null by default.
         $fetch = 'fetch_' . $fetch;
@@ -174,7 +174,7 @@ final class DatabaseManager extends \mysqli
      *
      * @return boolean        true|false
      */
-    public function Insert($into, array $array)
+    public function insert($into, array $array)
     {
         // Set up the array().
         $return = false;
@@ -182,13 +182,13 @@ final class DatabaseManager extends \mysqli
 
         // Loop through the array and escape the data.
         foreach ($array as $key => $value) {
-            $data[] = $this->Escape($key)."='".$this->Escape($value)."'";
+            $data[] = $this->escape($key)."='".$this->escape($value)."'";
         }
 
         // Seperate the data with a comma.
         $data = implode(', ', $data);
 
-        // Insert data into the database table.
+        // insert data into the database table.
         if ($this->query("INSERT INTO {$into} SET {$data}")) {
             // Unset the data once the query has run successfully and set the
             // $return as true.
@@ -209,7 +209,7 @@ final class DatabaseManager extends \mysqli
      *
      * @return boolean        true|false
      */
-    public function MultipleInsert($into, array $array)
+    public function multiInsert($into, array $array)
     {
         // Make sure the IDs are an array.
         $ids = array();
@@ -229,21 +229,21 @@ final class DatabaseManager extends \mysqli
         foreach($array as $key => $value) {
             // Run the insert statement and get the last insert_id from the
             // database, else set the ID to false.
-            if($this->Insert($into, $value) === true) {
+            if($this->insert($into, $value) === true) {
                 $ids[$key] = $this->insert_id;
             } else {
                 $ids[$key] = false;
             }
         }
 
-        // Our array $ids now contains an array of last insert_ids from the
+        // Our array $ids now contains an array of last insertIds from the
         // database.
-        $this->insert_ids = $ids;
+        $this->insertIds = $ids;
         // Unset the into statement, array and IDs.
         unset($into, $array, $ids);
 
         // Create an array_filter object.
-        $filter = array_filter($this->insert_ids);
+        $filter = array_filter($this->insertIds);
         // If the $filter is empty then return false.
         if (!empty($filter)) {
             return false;
@@ -264,7 +264,7 @@ final class DatabaseManager extends \mysqli
      *
      * @return boolean        true|false
      */
-    public function Update($table, $array, $where = '')
+    public function update($table, $array, $where = '')
     {
         // Set up the data array object and set $return as false by default.
         $return = false;
@@ -273,7 +273,7 @@ final class DatabaseManager extends \mysqli
         // Loop through the array data and assign a key-value pair in order to
         // escape the data for insert.
         foreach ($array as $key => $value) {
-            $data[] = $this->Escape($key)."='".$this->Escape($value)."'";
+            $data[] = $this->escape($key ) ."='" . $this->escape($value) . "'";
         }
 
         // Seperate the data with a comma.
@@ -300,7 +300,7 @@ final class DatabaseManager extends \mysqli
      *
      * @return boolean        true|false
      */
-    public function Delete($from, $where = '')
+    public function delete($from, $where = '')
     {
         // Set up the $return variable as false by default.
         $return = false;

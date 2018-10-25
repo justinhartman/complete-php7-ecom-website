@@ -57,9 +57,9 @@ include INC . 'nav.php';
                             // individual category pages.
                             if (isset($_GET['id']) & !empty($_GET['id'])) {
                                 $catId = $database->Escape($_GET['id']);
-                                $products = $database->Select("id, name, thumb, price", "products", "WHERE `catid`='$catId'");
+                                $products = $database->select("id, name, thumb, price", "products", "WHERE `catid`='$catId'");
                             } else {
-                                $products = $database->Select("id, name, thumb, price", "products");
+                                $products = $database->select("id, name, thumb, price", "products");
                             }
                             // Run through all the products and display the items.
                             while ($product = $products->fetch_assoc()):

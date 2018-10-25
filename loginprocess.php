@@ -30,10 +30,10 @@ require __DIR__ . '/config/bootstrap.php';
 
 if (isset($_POST) & !empty($_POST)) {
     // Variables for the query.
-    $email = $database->Escape($_POST['email']);
+    $email = $database->escape($_POST['email']);
     $password = $_POST['password'];
     // Setup the query.
-    $query = $database->SingleSelect("id, email, password", "users", "WHERE `email`='$email'");
+    $query = $database->singleSelect("id, email, password", "users", "WHERE `email`='$email'");
 
     // If the query is true then setup variables for the login else redirect
     // user telling them their email doesn't exist on the system.
