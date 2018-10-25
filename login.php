@@ -51,10 +51,10 @@ include INC . 'nav.php';
                                 <h3 class="heading text-center">I'm a Returning Customer</h3>
                                 <div class="clearfix space40"></div>
                                 <?php if (isset($_GET['message'])) {
-                                    if ($_GET['message'] == 1) {
+                                    if ($_GET['message'] === 'login-error') {
                                         ?><div class="alert alert-danger" role="alert"><?php echo "Sorry, we could not log you in with that email and password combination. Please try again."; ?> </div>
                                         <?php
-                                    } else if ($_GET['message'] == 3) {
+                                    } else if ($_GET['message'] === 'invalid-account') {
                                         ?><div class="alert alert-danger" role="alert"><?php echo "That email address is not registered on our system. Please try again with another email address."; ?></div>
                                         <?php
                                     }
@@ -99,8 +99,11 @@ include INC . 'nav.php';
                                 <h3 class="heading text-center">Register An Account</h3>
                                 <div class="clearfix space40"></div>
                                 <?php if (isset($_GET['message'])) {
-                                    if ($_GET['message'] == 2) {
+                                    if ($_GET['message'] === 'general-error') {
                                         ?><div class="alert alert-danger" role="alert"><?php echo "Something went wrong while trying to create your account. Are you sure that you haven't already registered before with your email address?"; ?></div>
+                                        <?php
+                                    } else if ($_GET['message'] === 'password-mismatch') {
+                                        ?><div class="alert alert-danger" role="alert"><?php echo "Your passwords do not match. Please try again."; ?></div>
                                         <?php
                                     }
                                 } ?>
@@ -122,7 +125,7 @@ include INC . 'nav.php';
                                             </div>
                                             <div class="col-md-6">
                                                 <label>Re-enter Password</label>
-                                                <input type="password" name="passwordagain" value="" class="form-control">
+                                                <input type="password" name="password_again" value="" class="form-control">
                                             </div>
                                         </div>
                                     </div>

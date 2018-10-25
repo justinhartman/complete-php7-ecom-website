@@ -33,29 +33,32 @@ require __DIR__ . '/config/bootstrap.php';
  */
 include_once COMPONENTS . 'security.php';
 
-if (isset($_POST) & !empty($_POST)) {
+// Check that the passwords match and this is a $_POST request before we even
+// think about doing anything.
+if (isset($_POST) && !empty($_POST) && $_POST['password'] === $_POST['password_again']) {
     // Sanitise the input methods for XSS Attacks.
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $userPass = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+    $email = $database->escape($_POST['email']);
+    $password = $database->escape($_POST['password']);
 
     // Set the password using a hash.
-    $hashPass = PasswordHash($userPass);
+    $hashedPassword = PasswordHash($password);
 
-    // Setup the query to store the email and password in the users table.
-    $sql = "INSERT INTO `users` (`email`, `password`) VALUES ('$email', '$hashPass')";
-    $result = $connection->query($sql);
+    // Setup the insert statement.
+    $tableName = 'users';
+    $data = array(
+    	'email' => $email,
+    	'password' => $hashedPassword
+    );
+    $query = $database->insert($tableName, $data);
 
-    // Check connection
-    if ($connection->connect_error && $debug == true) {
-        die("Connection failed: " . $connection->connect_error);
-    }
-
-    // Insert the user data into the users table.
-    if ($result === TRUE) {
+    if ($query === TRUE) {
         $_SESSION['customer'] = $email;
-        $_SESSION['customerid'] = $connection->insert_id;
+        $_SESSION['customerid'] = $database->insert_id;
         header("location: my-account.php");
     } else {
-        header("location: login.php?message=2");
+        header("location: login.php?message=general-error");
     }
+} else {
+    // Redirect back to login with the password error message.
+    header("location: login.php?message=password-mismatch");
 }

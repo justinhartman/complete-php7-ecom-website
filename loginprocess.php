@@ -28,7 +28,7 @@
  */
 require __DIR__ . '/config/bootstrap.php';
 
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     // Variables for the query.
     $email = $database->escape($_POST['email']);
     $password = $_POST['password'];
@@ -48,9 +48,9 @@ if (isset($_POST) & !empty($_POST)) {
             $_SESSION['customerid'] = $user;
             header("location: my-account.php");
         } else {
-            header("location: login.php?message=1");
+            header("location: login.php?message=login-error");
         }
     } else {
-        header("location: login.php?message=3");
+        header("location: login.php?message=invalid-account");
     }
 }
