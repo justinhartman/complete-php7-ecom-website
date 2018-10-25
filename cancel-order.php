@@ -44,7 +44,7 @@ include INC . 'nav.php';
 $uid = $_SESSION['customerid'];
 $cart = $_SESSION['cart'];
 
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     $cancel = filter_var($_POST['cancel'], FILTER_SANITIZE_STRING);
     $id = filter_var($_POST['orderid'], FILTER_SANITIZE_NUMBER_INT);
 

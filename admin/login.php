@@ -28,7 +28,7 @@
  */
 require '../config/bootstrap.php';
 
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     $email = mysqli_real_escape_string($connection, $_POST['email']);
     $password = md5($_POST['password']);
     $sql = "SELECT * FROM `admin` WHERE `email`='$email' AND `password`='$password'";

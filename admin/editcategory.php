@@ -11,7 +11,7 @@ if (isset($_GET) & !empty($_GET)) {
     header('location: categories.php');
 }
 
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     $id = mysqli_real_escape_string($connection, $_POST['id']);
     $name = mysqli_real_escape_string($connection, $_POST['categoryname']);
     $sql = "UPDATE category SET name = '$name' WHERE id=$id";

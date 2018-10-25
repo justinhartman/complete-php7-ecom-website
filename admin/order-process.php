@@ -13,7 +13,7 @@ ob_flush();
 <?php include 'inc/header.php'; ?>
 <?php include 'inc/nav.php'; ?>
 <?php
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     $status = filter_var($_POST['status'], FILTER_SANITIZE_STRING);
     $message = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
     $id = filter_var($_POST['orderid'], FILTER_SANITIZE_NUMBER_INT);

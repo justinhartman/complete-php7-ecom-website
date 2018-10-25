@@ -11,7 +11,7 @@ if (isset($_GET) & !empty($_GET)) {
     header('location: products.php');
 }
 
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     $prodname = mysqli_real_escape_string($connection, $_POST['productname']);
     $description = mysqli_real_escape_string($connection, $_POST['productdescription']);
     $category = mysqli_real_escape_string($connection, $_POST['productcategory']);

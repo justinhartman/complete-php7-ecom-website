@@ -46,7 +46,7 @@ if (isset($_GET['id']) & !empty($_GET['id'])) {
 ob_flush();
 
 $uid = $_SESSION['customerid'];
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     $review = filter_var($_POST['review'], FILTER_SANITIZE_STRING);
 
     $revsql = "INSERT INTO `reviews` (`pid`, `uid`, `review`) VALUES ($id, $uid, '$review')";

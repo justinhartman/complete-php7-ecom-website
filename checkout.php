@@ -73,7 +73,7 @@ if (isset($cart)){
  * Add or Update the Address details in the Database and process the items in
  * the users Cart for the Checkout page.
  */
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     if ($_POST['agree'] == true) {
         $country = filter_var($_POST['country'], FILTER_SANITIZE_STRING);
         $firstName = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);

@@ -59,7 +59,7 @@ $userMeta = $database->singleSelect("*", "usersmeta", "WHERE `uid`='$uid'");
 /**
  * Add or Update the Address details in the Database.
  */
-if (isset($_POST) & !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
     $country   = $database->escape($_POST['country']);
     $country   = $database->escape($_POST['country']);
     $firstName = $database->escape($_POST['fname']);
