@@ -23,6 +23,7 @@ password-cost.php
 /inc/classes/mysqli-examples/
 *.bak
 /config/sql/
+.htaccess
 
 ######################
 ### macOS Specific ###

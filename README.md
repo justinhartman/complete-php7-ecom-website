@@ -14,6 +14,7 @@ Admin interface.
         - [Create MySQL/MariaDB Database](#create-mysqlmariadb-database)
         - [Update Config Variables](#update-config-variables)
         - [Run Webserver](#run-webserver)
+- [Funding](#funding)
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
 - [Versioning](#versioning)
@@ -108,6 +109,10 @@ $ php -S localhost:8000
 [Fri Aug  7 10:44:02 2020] [::1]:51358 Accepted
 ```
 
+## Funding
+
+If you find this project valuable, please consider [giving us a small donation][paypal] to help keep the project alive. We can really do with the support to help us continue to maintain this project.
+
 ## Contributing
 
 Please read the [CONTRIBUTING.md][CONTRIBUTING] file for details on how you
@@ -163,3 +168,4 @@ some way to make this project a reality.
 [author-1]: https://github.com/justinhartman
 [.github]: https://github.com/justinhartman/.github
 [shopping-source]: https://codingcyber.org/simple-shopping-cart-application-php-mysql-6394/
+[paypal]: https://paypal.me/22digital

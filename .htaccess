@@ -31,7 +31,7 @@
 DirectoryIndex index.php index.html index.htm
 # Customize what Apache returns to the client in case of an error.
 # https://httpd.apache.org/docs/current/mod/core.html#errordocument
-ErrorDocument 404 /ecom/404.php
+ErrorDocument 404 /404.php
 # Disable the pattern matching based on filenames.
 # https://httpd.apache.org/docs/current/content-negotiation.html#multiviews
 Options -MultiViews
@@ -53,7 +53,7 @@ AddDefaultCharset utf-8
     # root of your site, '/' should work, else it might be something along the
     # lines of: RewriteBase /<your_sub_folder>
     #
-    RewriteBase /ecom/
+    RewriteBase /
 
     # Set %{ENV:PROTO} variable, to allow rewrites to redirect with the
     # appropriate schema automatically (http or https).
@@ -312,6 +312,7 @@ AddDefaultCharset utf-8
             RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
         </IfModule>
     </IfModule>
+
     # Compress all output labeled with one of the following media types.
     <IfModule mod_filter.c>
         AddOutputFilterByType DEFLATE "application/atom+xml" \
