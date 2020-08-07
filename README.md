@@ -40,7 +40,7 @@ You will need the following running on your local development machine.
 
 ### Installing
 
-All the installation instructions are contained in the [INSTALL.md](INSTALL.md) file. Follow these instructions and your website will be up and running in a few minutes.
+Follow the instructions below and your website will be up and running in a few minutes.
 
 #### Installing required packages
 
