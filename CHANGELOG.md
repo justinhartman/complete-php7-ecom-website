@@ -3,6 +3,39 @@
 Below is a detailed change-log, along with specific tasks completed, for each
 version released to date.
 
+## Version 1.0.0 (07/08/2020)
+
+- [#new](#new)
+  + Added new components path in paths.php.
+  + Added new link to Wishlist in the navigation bar.
+  + Added Classes folder in paths.php.
+  + New Database Class file for migrating to OOP with Queries.
+  + New .htaccess for pretty URLs & Sets up security and caching.
+  + New 404 page.
+  + New MySQLi Class file for handling queries.
+  + New MySQL Workbench Schema File.
+- [#bugfix](#bugfix)
+  + Fixed issue #4 which related to `composer.json` formatting issues.
+  + Fixed error message on login page.
+  + Removed SSL redirect in .htaccess.
+  + Fixed error where check for two $_POST clauses were only separated with 
+    one ampersand instead of two.
+- [#enhancement](#enhancement)
+  + Included install instructions in the [README](README.md).
+  + Updated packages in `composer.json`.
+  + New security component file for storing security related functions.
+  + Updated register to use security component.
+  + Adjusted Footer CSS.
+  + Login Process file now migrated to use new DB Class file.
+  + Bootstrap file includes the database.php class file and creates new DB 
+    object.
+  + Added more values to .env files.
+  + Changed MySQLi Class to use camelCase for method names.
+  + Updated Register to use new MySQLi Class.
+  + Updated Register to validate passwords match.
+  + Updated the check for error messages on Login and Register.
+  + Updated SQL creation script with Foreign Keys and Indexes.
+
 ## Version 0.5.0 (22/10/2018)
 
 - [#new](#new)
