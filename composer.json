@@ -1,12 +1,12 @@
 {
-    "name": "complete-php7-ecom-website",
+    "name": "justinhartman/php7_ecommerce_website",
     "description": "An advanced and complete PHP 7 eCommerce website along with MySQL database and Admin interface.",
     "homepage": "https://github.com/justinhartman/complete-php7-ecom-website",
     "keywords": ["cms", "ecommerce", "ecommerce admin", "ecommerce database", "ecommerce website", "php"],
     "authors": [{
         "name": "Justin Hartman",
-        "email": "justin@hartman.me",
-        "homepage": "https://justinhartman.blog"
+        "email": "me@justinhartman.co",
+        "homepage": "https://justinhartman.co"
     }],
     "type": "project",
     "license": "AGPL-3",
