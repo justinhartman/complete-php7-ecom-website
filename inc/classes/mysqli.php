@@ -1,6 +1,6 @@
 <?php
 /**
- * Advanced PHP 7 eCommerce Website (https://22digital.agency)
+ * Advanced PHP 7 eCommerce Website (https://22digital.co.za)
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Affero General Public License as published by the Free
@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  *
- * @copyright Copyright (c) 22 Digital (https://22digital.agency)
- * @copyright Copyright (c) Justin Hartman (https://justinhartman.blog)
- * @author    Justin Hartman <justin@hartman.me> (https://justinhartman.blog)
+ * @copyright Copyright (c) 22 Digital (https://22digital.co.za)
+ * @copyright Copyright (c) Justin Hartman (https://justinhartman.co)
+ * @author    Justin Hartman <justin@hartman.me> (https://justinhartman.co)
  * @link      https://github.com/justinhartman/complete-php7-ecom-website GitHub
  * @since     0.5.0
  * @license   https://opensource.org/licenses/AGPL-3.0 AGPL-3.0
