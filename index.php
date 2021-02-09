@@ -76,10 +76,10 @@ include INC . 'nav.php';
                                         <div class="product-thumb">
                                             <img src="<?php echo getenv('STORE_URL'); ?>/admin/<?php echo $product['thumb']; ?>" class="img-responsive" width="250px" alt="">
                                             <div class="product-overlay">
-                                                <span>
+                                           
                                                     <a href="<?php echo getenv('STORE_URL'); ?>/single.php?id=<?php echo $product['id']; ?>" class="fa fa-link"></a>
                                                     <a href="<?php echo getenv('STORE_URL'); ?>/addtocart.php?id=<?php echo $product['id']; ?>" class="fa fa-shopping-cart"></a>
-                                                </span>
+                                             
                                             </div>
                                         </div>
                                         <?php // TODO: Need to add functionality so people can rate items.  ?>
