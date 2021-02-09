@@ -1983,12 +1983,12 @@ blockquote.style2 p {
     transition: .4s;
 }
 
-.product-overlay span {
+/* .product-overlay span {
     display: inline-block;
     padding: 35%;
-}
+} */
 
-.product-overlay span a {
+.product-overlay a {
     background: #ef7c00;
     width: 40px;
     height: 40px;
@@ -1999,7 +1999,7 @@ blockquote.style2 p {
     transition: .4s;
 }
 
-.product-overlay span a:hover {
+.product-overlay a:hover {
     background: #fff;
     width: 40px;
     height: 40px;
@@ -2008,7 +2008,7 @@ blockquote.style2 p {
     font-size: 18px;
 }
 
-.product:hover .product-overlay span a {
+.product:hover .product-overlay a {
     transition: .4s;
     margin: 0 1px;
     padding-left: 9px;
