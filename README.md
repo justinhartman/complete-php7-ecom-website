@@ -47,7 +47,7 @@ Follow the instructions below and your website will be up and running in a few m
 
 Before doing anything you will need to install the required packages using [composer](https://getcomposer.org/). Running composer installs the `dotenv` project which allows you to configure your website using a `.env` file.
 
-```bash
+```console
 $ composer install
 Loading composer repositories with package information
 Installing dependencies (including require-dev) from lock file
@@ -64,7 +64,7 @@ Using whatever way you do, you need to create a new MySQL database. When creatin
 
 To populate the database with data, there is a file in the `config` folder called `/config/db_dump.sql`. You need to import this SQL file into the database using your preferred method. I recommend using [phpMyAdmin](https://www.phpmyadmin.net/) to import the database queries but if you use a command line you would need to execute the following command.
 
-```bash
+```console
 $ mysql -u DB_USERNAME -p ecommerce < ./config/db_dump.sql
 ```
 
@@ -103,7 +103,7 @@ These are the settings you can configure for your store.
 
 Once you have the database up and running you can start the webserver (see command below) and you should see your newly created website running at <http://localhost:8000>.
 
-```bash
+```console
 $ php -S localhost:8000
 [Fri Aug  7 10:43:59 2020] PHP 7.4.8 Development Server (http://localhost:8000) started
 [Fri Aug  7 10:44:02 2020] [::1]:51358 Accepted
